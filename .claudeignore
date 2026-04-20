@@ -1,0 +1,8 @@
+# .claudeignore
+spec/diagrams/
+output/
+bun.lock
+archive/
+sprints-v1/
+*.svg
+*.json.lock
