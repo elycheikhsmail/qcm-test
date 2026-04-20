@@ -4,7 +4,7 @@
 2. Toujours utiliser **Bun.js** pour executer JS cote serveur
 3. Toujours ecrire la reflexion dans le dossier `reflexion/`
 4. **Après chaque modification (code, scripts, schéma, config), actualiser ce fichier `CLAUDE.md`** pour qu'il reflète l'état courant du projet (nouveaux scripts, nouvelles règles, nouvelles tables, nouvelles routes).
-
+5. toujours utiliser git pour gerer les modification et pour minimiser le token envoyer vers CLAUDE
 ## Application Next.js
 
 - Stack : Bun + Next.js 15 (App Router) + PostgreSQL 18 + Tailwind v4
