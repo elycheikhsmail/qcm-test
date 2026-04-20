@@ -84,12 +84,12 @@ GET    /api/quiz/sessions/:id/results      → { score, total, answers: AnswerDe
 
 ## Definition of Done
 
-- [ ] Toutes les routes P0 répondent avec le bon status HTTP (200/400/401/404)
-- [ ] Flux complet via `curl` : POST magic-link → GET token → POST session → GET questions → POST answers × N → POST submit → GET results
-- [ ] `correct_answer` absent de toutes les réponses publiques (vérifié par test)
-- [ ] Un magic link expiré ou `use_count >= max_uses` renvoie 401
-- [ ] Le score calculé par le serveur correspond au nombre de `is_correct = true`
-- [ ] Collection Postman ou fichier `.http` committée dans `reflexion/api-tests.http`
+- [x] Toutes les routes P0 répondent avec le bon status HTTP (200/400/401/404)
+- [x] Flux complet via `curl` : POST magic-link → GET token → POST session → GET questions → POST answers × N → POST submit → GET results
+- [x] `correct_answer` absent de toutes les réponses publiques (vérifié par test)
+- [x] Un magic link expiré ou `use_count >= max_uses` renvoie 401
+- [x] Le score calculé par le serveur correspond au nombre de `is_correct = true`
+- [x] Collection Postman ou fichier `.http` committée dans `reflexion/api-tests.http`
 
 ---
 
