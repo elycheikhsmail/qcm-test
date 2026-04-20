@@ -1,0 +1,1 @@
+ce dossier contient les manuel scolaire du programme mauritanien, il va etre actualiser en ajouter des   ressouces qui manue des que je le trouve. actuellement maths seulement

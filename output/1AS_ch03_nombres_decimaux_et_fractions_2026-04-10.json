@@ -1,0 +1,750 @@
+{
+  "_comment": "Format JSON intermédiaire — questions mathématiques en attente de validation",
+  "_version": "1.1",
+  "_doc": "Un fichier = un chapitre. Le script d'import ne traite que les questions { validation.status: 'approved' }.",
+  "meta": {
+    "generated_at": "2026-04-10T00:00:00.000Z",
+    "generated_by": "claude_cowork",
+    "source_file": "MA-1AS-M.pdf",
+    "niveau_code": "1AS",
+    "niveau_label": "1ère année Secondaire",
+    "cycle": "Secondaire 1er cycle",
+    "option": null,
+    "chapitre_titre": "Nombres décimaux et fractions",
+    "chapitre_numero": 3,
+    "langue_principale": "fr",
+    "total_questions": 40
+  },
+  "questions": [
+    {
+      "id": "tmp_1AS_ch03_001",
+      "type": "qcm",
+      "langue": "fr",
+      "content": "Dans le nombre 35 918,426, le chiffre des dixièmes est :",
+      "options": [
+        "4",
+        "2",
+        "6",
+        "8"
+      ],
+      "correct_answer": "4",
+      "difficulty": 1,
+      "page_source": 43,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_002",
+      "type": "qcm",
+      "langue": "fr",
+      "content": "Dans le nombre 8 105,21, le chiffre des centièmes est :",
+      "options": [
+        "2",
+        "1",
+        "5",
+        "0"
+      ],
+      "correct_answer": "1",
+      "difficulty": 1,
+      "page_source": 44,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_003",
+      "type": "qcm",
+      "langue": "fr",
+      "content": "Pour comparer deux décimaux positifs, on compare d'abord :",
+      "options": [
+        "leurs parties décimales",
+        "leurs chiffres des dixièmes",
+        "leurs parties entières",
+        "leurs chiffres des unités"
+      ],
+      "correct_answer": "leurs parties entières",
+      "difficulty": 1,
+      "page_source": 45,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_004",
+      "type": "qcm",
+      "langue": "fr",
+      "content": "Ranger des nombres dans l'ordre croissant signifie les écrire :",
+      "options": [
+        "du plus grand au plus petit",
+        "du plus petit au plus grand",
+        "par valeur de leur partie entière uniquement",
+        "par ordre de leur partie décimale uniquement"
+      ],
+      "correct_answer": "du plus petit au plus grand",
+      "difficulty": 1,
+      "page_source": 47,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_005",
+      "type": "qcm",
+      "langue": "fr",
+      "content": "Le rangement correct dans l'ordre croissant de 4,83 ; 4,76 ; 5,01 ; 5,008 ; 4,809 est :",
+      "options": [
+        "4,76 < 4,809 < 4,83 < 5,008 < 5,01",
+        "4,76 < 4,83 < 4,809 < 5,008 < 5,01",
+        "4,83 < 4,76 < 4,809 < 5,01 < 5,008",
+        "4,76 < 4,83 < 5,008 < 4,809 < 5,01"
+      ],
+      "correct_answer": "4,76 < 4,809 < 4,83 < 5,008 < 5,01",
+      "difficulty": 2,
+      "page_source": 47,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_006",
+      "type": "qcm",
+      "langue": "fr",
+      "content": "L'encadrement à l'unité près du nombre 5,103 est :",
+      "options": [
+        "4 < 5,103 < 6",
+        "5 < 5,103 < 6",
+        "5,1 < 5,103 < 5,2",
+        "5,10 < 5,103 < 5,11"
+      ],
+      "correct_answer": "5 < 5,103 < 6",
+      "difficulty": 1,
+      "page_source": 46,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_007",
+      "type": "qcm",
+      "langue": "fr",
+      "content": "Pour effectuer la multiplication de deux nombres décimaux positifs, on place la virgule en prenant :",
+      "options": [
+        "la différence des nombres de décimales des facteurs",
+        "le nombre de décimales du plus grand facteur",
+        "la somme des nombres de décimales des facteurs",
+        "toujours deux décimales dans le résultat"
+      ],
+      "correct_answer": "la somme des nombres de décimales des facteurs",
+      "difficulty": 1,
+      "page_source": 49,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_008",
+      "type": "qcm",
+      "langue": "fr",
+      "content": "Une fraction a/b est définie comme :",
+      "options": [
+        "la différence d'un entier a et d'un entier b",
+        "le quotient d'un entier naturel a par un entier naturel non nul b",
+        "le produit de deux entiers naturels a et b",
+        "la somme d'un entier a et d'un entier b"
+      ],
+      "correct_answer": "le quotient d'un entier naturel a par un entier naturel non nul b",
+      "difficulty": 1,
+      "page_source": 50,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_009",
+      "type": "qcm",
+      "langue": "fr",
+      "content": "On appelle fraction décimale une fraction dont le dénominateur est :",
+      "options": [
+        "un nombre premier",
+        "un nombre pair",
+        "une puissance de 10",
+        "un diviseur de 1000"
+      ],
+      "correct_answer": "une puissance de 10",
+      "difficulty": 1,
+      "page_source": 52,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_010",
+      "type": "qcm",
+      "langue": "fr",
+      "content": "Deux fractions a/b et x/y sont égales si et seulement si :",
+      "options": [
+        "a + y = b + x",
+        "a × y = b × x",
+        "a − y = b − x",
+        "a ÷ b = x ÷ y uniquement si a = x"
+      ],
+      "correct_answer": "a × y = b × x",
+      "difficulty": 1,
+      "page_source": 53,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_011",
+      "type": "qcm",
+      "langue": "fr",
+      "content": "Si deux fractions ont le même dénominateur, la plus petite est celle qui a :",
+      "options": [
+        "le plus grand dénominateur",
+        "le plus grand numérateur",
+        "le plus petit numérateur",
+        "le plus petit dénominateur"
+      ],
+      "correct_answer": "le plus petit numérateur",
+      "difficulty": 1,
+      "page_source": 54,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_012",
+      "type": "qcm",
+      "langue": "fr",
+      "content": "Si deux fractions ont le même numérateur, la plus petite est celle qui a :",
+      "options": [
+        "le plus petit numérateur",
+        "le plus petit dénominateur",
+        "le plus grand numérateur",
+        "le plus grand dénominateur"
+      ],
+      "correct_answer": "le plus grand dénominateur",
+      "difficulty": 1,
+      "page_source": 54,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_013",
+      "type": "qcm",
+      "langue": "fr",
+      "content": "Le résultat de 2/13 + 15/13 est :",
+      "options": [
+        "17/26",
+        "30/26",
+        "13/17",
+        "17/13"
+      ],
+      "correct_answer": "17/13",
+      "difficulty": 1,
+      "page_source": 56,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_014",
+      "type": "qcm",
+      "langue": "fr",
+      "content": "Le dénominateur commun obtenu en multipliant les dénominateurs pour calculer 11/24 + 9/13 est :",
+      "options": [
+        "37",
+        "264",
+        "312",
+        "288"
+      ],
+      "correct_answer": "312",
+      "difficulty": 2,
+      "page_source": 56,
+      "enrichissement": null,
+      "validation": {
+        "status": "pending",
+        "confidence": "low",
+        "reviewer_notes": ""
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_015",
+      "type": "qcm",
+      "langue": "fr",
+      "content": "Pour multiplier la fraction a/b par un entier naturel n (avec b ≠ 0), le résultat est :",
+      "options": [
+        "(n + a) / b",
+        "a / (n × b)",
+        "(n × a) / b",
+        "n / (a × b)"
+      ],
+      "correct_answer": "(n × a) / b",
+      "difficulty": 1,
+      "page_source": 57,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_016",
+      "type": "qcm",
+      "langue": "fr",
+      "content": "Le résultat de 1/4 × 2/3 est :",
+      "options": [
+        "3/7",
+        "1/6",
+        "2/7",
+        "1/12"
+      ],
+      "correct_answer": "1/6",
+      "difficulty": 1,
+      "page_source": 57,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_017",
+      "type": "qcm",
+      "langue": "fr",
+      "content": "La fraction 624/864 rendue irréductible est :",
+      "options": [
+        "39/54",
+        "13/18",
+        "26/36",
+        "78/108"
+      ],
+      "correct_answer": "13/18",
+      "difficulty": 2,
+      "page_source": 55,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_018",
+      "type": "qcm",
+      "langue": "fr",
+      "content": "L'addition des nombres décimaux positifs est :",
+      "options": [
+        "uniquement commutative",
+        "uniquement associative",
+        "commutative et associative",
+        "ni commutative ni associative"
+      ],
+      "correct_answer": "commutative et associative",
+      "difficulty": 1,
+      "page_source": 48,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_019",
+      "type": "true_false",
+      "langue": "fr",
+      "content": "Tout entier naturel est un décimal positif.",
+      "options": null,
+      "correct_answer": "true",
+      "difficulty": 1,
+      "page_source": 43,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_020",
+      "type": "true_false",
+      "langue": "fr",
+      "content": "L'ensemble des décimaux positifs est noté ID.",
+      "options": null,
+      "correct_answer": "true",
+      "difficulty": 1,
+      "page_source": 43,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_021",
+      "type": "true_false",
+      "langue": "fr",
+      "content": "Pour comparer 37,79 et 37,84, on compare d'abord leurs parties entières, qui sont différentes.",
+      "options": null,
+      "correct_answer": "false",
+      "difficulty": 1,
+      "page_source": 45,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_022",
+      "type": "true_false",
+      "langue": "fr",
+      "content": "La soustraction 53,78 − 69,607 est possible.",
+      "options": null,
+      "correct_answer": "false",
+      "difficulty": 1,
+      "page_source": 48,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_023",
+      "type": "true_false",
+      "langue": "fr",
+      "content": "Le nombre décimal 12,03 peut s'écrire sous la forme de la fraction 1203/100.",
+      "options": null,
+      "correct_answer": "true",
+      "difficulty": 1,
+      "page_source": 52,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_024",
+      "type": "true_false",
+      "langue": "fr",
+      "content": "La fraction 42/66 est irréductible.",
+      "options": null,
+      "correct_answer": "false",
+      "difficulty": 2,
+      "page_source": 55,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_025",
+      "type": "true_false",
+      "langue": "fr",
+      "content": "Si on multiplie par un même nombre non nul le numérateur et le dénominateur d'une fraction, on obtient une fraction égale à la première.",
+      "options": null,
+      "correct_answer": "true",
+      "difficulty": 1,
+      "page_source": 53,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_026",
+      "type": "true_false",
+      "langue": "fr",
+      "content": "Le produit de deux fractions est une fraction ayant pour numérateur le produit des numérateurs et pour dénominateur le produit des dénominateurs.",
+      "options": null,
+      "correct_answer": "true",
+      "difficulty": 1,
+      "page_source": 57,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_027",
+      "type": "true_false",
+      "langue": "fr",
+      "content": "L'élément neutre de l'addition des décimaux positifs est 0.",
+      "options": null,
+      "correct_answer": "true",
+      "difficulty": 1,
+      "page_source": 48,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_028",
+      "type": "true_false",
+      "langue": "fr",
+      "content": "Pour additionner deux fractions de même dénominateur, on additionne les numérateurs et on additionne également les dénominateurs.",
+      "options": null,
+      "correct_answer": "false",
+      "difficulty": 1,
+      "page_source": 56,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_029",
+      "type": "fill_blank",
+      "langue": "fr",
+      "content": "Dans l'écriture d'un décimal positif, la virgule partage l'écriture en deux parties : la partie entière à gauche et la partie ___ à droite.",
+      "options": null,
+      "correct_answer": "décimale",
+      "difficulty": 1,
+      "page_source": 43,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_030",
+      "type": "fill_blank",
+      "langue": "fr",
+      "content": "Dans le nombre 35 918,426, le chiffre 4 représente le chiffre des ___.",
+      "options": null,
+      "correct_answer": "dixièmes",
+      "difficulty": 1,
+      "page_source": 43,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_031",
+      "type": "fill_blank",
+      "langue": "fr",
+      "content": "Pour effectuer la somme de deux décimaux positifs, il faut aligner les chiffres de même ordre et conserver la ___ à sa place.",
+      "options": null,
+      "correct_answer": "virgule",
+      "difficulty": 1,
+      "page_source": 47,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_032",
+      "type": "fill_blank",
+      "langue": "fr",
+      "content": "Une fraction dont le dénominateur est une puissance de 10 est appelée fraction ___.",
+      "options": null,
+      "correct_answer": "décimale",
+      "difficulty": 1,
+      "page_source": 52,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_033",
+      "type": "fill_blank",
+      "langue": "fr",
+      "content": "Deux fractions sont égales si leurs ___ en croix sont égaux.",
+      "options": null,
+      "correct_answer": "produits",
+      "difficulty": 1,
+      "page_source": 53,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_034",
+      "type": "fill_blank",
+      "langue": "fr",
+      "content": "La fraction 624/864, simplifiée par le PGCD(624, 864) = 48, est ___.",
+      "options": null,
+      "correct_answer": "13/18",
+      "difficulty": 2,
+      "page_source": 55,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_035",
+      "type": "fill_blank",
+      "langue": "fr",
+      "content": "En réduisant au même dénominateur, 17/6 + 31/18 = 51/18 + 31/18 = ___.",
+      "options": null,
+      "correct_answer": "82/18",
+      "difficulty": 2,
+      "page_source": 56,
+      "enrichissement": null,
+      "validation": {
+        "status": "pending",
+        "confidence": "low",
+        "reviewer_notes": ""
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_036",
+      "type": "fill_blank",
+      "langue": "fr",
+      "content": "L'encadrement aux dixièmes près du nombre 5,103 est : 5,1 < 5,103 < ___.",
+      "options": null,
+      "correct_answer": "5,2",
+      "difficulty": 1,
+      "page_source": 46,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_037",
+      "type": "fill_blank",
+      "langue": "fr",
+      "content": "Entre deux fractions de même dénominateur, la plus grande est celle qui a le plus grand ___.",
+      "options": null,
+      "correct_answer": "numérateur",
+      "difficulty": 1,
+      "page_source": 54,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_038",
+      "type": "fill_blank",
+      "langue": "fr",
+      "content": "Le résultat de 11/24 + 9/13, après réduction au dénominateur commun 312, est ___.",
+      "options": null,
+      "correct_answer": "359/312",
+      "difficulty": 3,
+      "page_source": 56,
+      "enrichissement": null,
+      "validation": {
+        "status": "pending",
+        "confidence": "low",
+        "reviewer_notes": ""
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_039",
+      "type": "fill_blank",
+      "langue": "fr",
+      "content": "Pour rendre une fraction irréductible, on divise son numérateur et son dénominateur par leur ___.",
+      "options": null,
+      "correct_answer": "PGCD",
+      "difficulty": 1,
+      "page_source": 55,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    },
+    {
+      "id": "tmp_1AS_ch03_040",
+      "type": "fill_blank",
+      "langue": "fr",
+      "content": "La valeur approchée de 29/12 à 0,01 près est ___.",
+      "options": null,
+      "correct_answer": "2,42",
+      "difficulty": 2,
+      "page_source": 53,
+      "enrichissement": null,
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": "auto-approved (confidence=high)"
+      }
+    }
+  ]
+}

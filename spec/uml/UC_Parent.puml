@@ -1,0 +1,19 @@
+@startuml UC_Parent
+left to right direction
+skinparam actorStyle awesome
+
+actor "Parent" as PAR
+
+rectangle "Espace Parent" {
+  usecase "Se connecter via le compte de l'enfant" as UC1
+  usecase "Voir le résumé des résultats" as UC2
+  usecase "Voir les matières fortes / faibles" as UC3
+  usecase "Voir les derniers tests passés" as UC4
+}
+
+PAR --> UC1
+UC1 .> UC2 : <<include>>
+UC2 .> UC3 : <<include>>
+UC2 .> UC4 : <<include>>
+
+@enduml

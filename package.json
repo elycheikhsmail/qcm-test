@@ -1,0 +1,40 @@
+{
+  "name": "qcm-systeme",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:setup": "bun run scripts/db-setup.ts",
+    "db:ping": "bun --env-file=.env.local run scripts/db-ping.ts",
+    "db:migrate": "bun --env-file=.env.local run scripts/migrate.ts",
+    "db:seed": "bun --env-file=.env.local run scripts/seed.ts",
+    "db:reset": "bun --env-file=.env.local run scripts/db-reset.ts",
+    "db:import": "bun --env-file=.env.local run scripts/import-questions.ts",
+    "db:bulk-import": "bun --env-file=.env.local run scripts/bulk-import.ts",
+    "db:approve": "bun run scripts/approve-by-confidence.ts",
+    "generate": "bun run scripts/generate_questions.ts",
+    "validate": "bun run scripts/validate_questions.ts",
+    "export-diagrams": "bun run scripts/export-diagrams.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.40.0",
+    "@types/node": "^25.6.0",
+    "next": "^16.2.4",
+    "postgres": "^3.4.9",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.2",
+    "@types/bun": "^1.3.11",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^10.2.1",
+    "eslint-config-next": "^16.2.4",
+    "postcss": "^8.5.10",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^6.0.3"
+  }
+}

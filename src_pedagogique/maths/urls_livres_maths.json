@@ -1,0 +1,210 @@
+{
+  "source": "https://www.koutoubi.mr/fr/",
+  "description": "Livres de mathématiques officiels - Institut Pédagogique National (IPN) Mauritanie",
+  "date_extraction": "2026-04-10",
+  "livres": [
+    {
+      "niveau": "Fondamental",
+      "annee": "1ère année",
+      "code": "1AF",
+      "documents": [
+        {
+          "titre": "Mathématiques – Manuel de l'élève",
+          "type": "manuel",
+          "edition": 2025,
+          "url": "https://docs.bsimr.com/pdfs/fondamentals/Math_1AP_Manuel_eleve.pdf",
+          "fichier": "Math_1AP_Manuel_eleve.pdf"
+        },
+        {
+          "titre": "Mathématiques – Cahier d'exercices",
+          "type": "cahier_exercices",
+          "edition": 2025,
+          "url": "https://docs.bsimr.com/pdfs/fondamentals/Math_1AP_Cahier_exercice.pdf",
+          "fichier": "Math_1AP_Cahier_exercice.pdf"
+        }
+      ]
+    },
+    {
+      "niveau": "Fondamental",
+      "annee": "2ème année",
+      "code": "2AF",
+      "documents": [
+        {
+          "titre": "كتاب الحساب – Manuel de mathématiques",
+          "type": "manuel",
+          "edition": 2025,
+          "url": "https://docs.bsimr.com/pdfs/fondamentals/MA-2AF-M.pdf",
+          "fichier": "MA-2AF-M.pdf"
+        },
+        {
+          "titre": "الدروس المحضرة – Leçons préparées",
+          "type": "lecons_preparees",
+          "edition": 2025,
+          "url": "https://docs.bsimr.com/pdfs/fondamentals/MA-2AF.pdf",
+          "fichier": "MA-2AF.pdf"
+        }
+      ]
+    },
+    {
+      "niveau": "Fondamental",
+      "annee": "3ème année",
+      "code": "3AF",
+      "documents": [
+        {
+          "titre": "كتاب الرياضيات – Manuel de mathématiques",
+          "type": "manuel",
+          "edition": 2025,
+          "url": "https://docs.bsimr.com/pdfs/fondamentals/MA-3AF-M.pdf",
+          "fichier": "MA-3AF-M.pdf"
+        }
+      ]
+    },
+    {
+      "niveau": "Fondamental",
+      "annee": "4ème année",
+      "code": "4AF",
+      "documents": [
+        {
+          "titre": "كتاب الرياضيات – Manuel de mathématiques",
+          "type": "manuel",
+          "edition": 2025,
+          "url": "https://docs.bsimr.com/pdfs/fondamentals/MA-4AF-M.pdf",
+          "fichier": "MA-4AF-M.pdf"
+        }
+      ]
+    },
+    {
+      "niveau": "Fondamental",
+      "annee": "5ème année",
+      "code": "5AF",
+      "documents": [
+        {
+          "titre": "كتاب الرياضيات – Manuel de mathématiques",
+          "type": "manuel",
+          "edition": 2025,
+          "url": "https://docs.bsimr.com/pdfs/fondamentals/MA-5AF-M.pdf",
+          "fichier": "MA-5AF-M.pdf"
+        }
+      ]
+    },
+    {
+      "niveau": "Fondamental",
+      "annee": "6ème année",
+      "code": "6AF",
+      "documents": [
+        {
+          "titre": "Mathématiques 6ème AP – Manuel de l'élève",
+          "type": "manuel",
+          "edition": 2025,
+          "url": "https://docs.bsimr.com/pdfs/fondamentals/MA-6AF-M.pdf",
+          "fichier": "MA-6AF-M.pdf"
+        }
+      ]
+    },
+    {
+      "niveau": "Secondaire 1er cycle",
+      "annee": "1ère année",
+      "code": "1AS",
+      "documents": [
+        {
+          "titre": "Mathématiques 1ère AS – Manuel",
+          "type": "manuel",
+          "edition": 2025,
+          "url": "https://docs.bsimr.com/pdfs/secondaire1s/MA-1AS-M.pdf",
+          "fichier": "MA-1AS-M.pdf"
+        }
+      ]
+    },
+    {
+      "niveau": "Secondaire 1er cycle",
+      "annee": "2ème année",
+      "code": "2AS",
+      "documents": [
+        {
+          "titre": "Mathématiques 2ème AS – Manuel",
+          "type": "manuel",
+          "edition": 2022,
+          "url": "https://docs.bsimr.com/pdfs/secondaire1s/MA-2AS-M.pdf",
+          "fichier": "MA-2AS-M.pdf"
+        }
+      ]
+    },
+    {
+      "niveau": "Secondaire 1er cycle",
+      "annee": "3ème année",
+      "code": "3AS",
+      "documents": [
+        {
+          "titre": "Mathématiques 3ème AS – Manuel",
+          "type": "manuel",
+          "edition": 2025,
+          "url": "https://docs.bsimr.com/pdfs/secondaire1s/MA-3AS-M.pdf",
+          "fichier": "MA-3AS-M.pdf"
+        }
+      ]
+    },
+    {
+      "niveau": "Secondaire 1er cycle",
+      "annee": "4ème année",
+      "code": "4AS",
+      "documents": [],
+      "note": "Page introuvable (404) sur le site au moment de l'extraction"
+    },
+    {
+      "niveau": "Secondaire 2ème cycle",
+      "annee": "5ème année",
+      "code": "5AS",
+      "documents": [
+        {
+          "titre": "Mathématiques 5ème AS – Manuel",
+          "type": "manuel",
+          "edition": 2025,
+          "url": "https://docs.bsimr.com/pdfs/secondaire2s/MA-5AS-M.pdf",
+          "fichier": "MA-5AS-M.pdf"
+        }
+      ]
+    },
+    {
+      "niveau": "Secondaire 2ème cycle",
+      "annee": "6ème année",
+      "code": "6AS",
+      "documents": [
+        {
+          "titre": "Mathématiques 6ème AS – Manuel",
+          "type": "manuel",
+          "edition": 2025,
+          "url": "https://docs.bsimr.com/pdfs/secondaire2s/MA-6AS-M.pdf",
+          "fichier": "MA-6AS-M.pdf"
+        }
+      ]
+    },
+    {
+      "niveau": "Secondaire 2ème cycle",
+      "annee": "7ème année",
+      "code": "7AS",
+      "documents": [
+        {
+          "titre": "Mathématiques 7ème AS – Option C (Sciences exactes)",
+          "type": "manuel",
+          "option": "C",
+          "edition": 2025,
+          "url": "https://docs.bsimr.com/pdfs/secondaire2s/MA-7AS-C.pdf",
+          "fichier": "MA-7AS-C.pdf"
+        },
+        {
+          "titre": "Mathématiques 7ème AS – Option D (Sciences naturelles)",
+          "type": "manuel",
+          "option": "D",
+          "edition": 2025,
+          "url": "https://docs.bsimr.com/pdfs/secondaire2s/MA-7AS-D.pdf",
+          "fichier": "MA-7AS-D.pdf"
+        }
+      ]
+    }
+  ],
+  "statistiques": {
+    "total_niveaux": 13,
+    "total_documents": 14,
+    "niveaux_manquants": ["4AS"]
+  }
+}

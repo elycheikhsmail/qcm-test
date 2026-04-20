@@ -1,0 +1,35 @@
+@startuml UC_Enseignant
+left to right direction
+skinparam actorStyle awesome
+
+actor "Enseignant" as ENS
+
+rectangle "Espace Enseignant" {
+  usecase "Créer une classe" as UC1
+  usecase "Ajouter un élève à une classe" as UC2
+  usecase "Accepter une demande d'élève" as UC3
+  usecase "Créer un magic link" as UC4
+  usecase "Créer un test par critères" as UC5
+  usecase "Configurer le mode temps du test" as UC6
+  usecase "Assigner un test à une classe" as UC7
+  usecase "Assigner un test à un élève" as UC8
+  usecase "Consulter les résultats d'une classe" as UC9
+  usecase "Consulter les résultats d'un élève" as UC10
+  usecase "Voir les statistiques du test" as UC11
+}
+
+ENS --> UC1
+ENS --> UC2
+ENS --> UC3
+ENS --> UC4
+ENS --> UC5
+ENS --> UC9
+ENS --> UC10
+
+UC5 .> UC6 : <<include>>
+UC5 .> UC7 : <<extend>>
+UC5 .> UC8 : <<extend>>
+UC9 .> UC11 : <<include>>
+UC2 .> UC3 : <<extend>>
+
+@enduml

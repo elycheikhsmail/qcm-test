@@ -1,0 +1,27 @@
+@startuml UC_Admin_Technique
+left to right direction
+skinparam actorStyle awesome
+
+actor "Admin Technique" as AT
+actor "Claude Code" as CC <<system>>
+
+rectangle "Administration Technique" {
+  usecase "Lancer le pipeline PDF → Questions" as UC1
+  usecase "Valider les questions générées (JSON)" as UC2
+  usecase "Importer les questions en base" as UC3
+  usecase "Gérer les migrations de base de données" as UC4
+  usecase "Déployer l'application" as UC5
+  usecase "Configurer l'environnement" as UC6
+}
+
+AT --> UC1
+AT --> UC2
+AT --> UC3
+AT --> UC4
+AT --> UC5
+AT --> UC6
+CC --> UC1
+UC1 .> UC2 : <<include>>
+UC2 .> UC3 : <<include>>
+
+@enduml

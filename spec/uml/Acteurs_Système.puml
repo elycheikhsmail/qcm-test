@@ -1,0 +1,38 @@
+@startuml Acteurs_Système
+left to right direction
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+
+actor "Admin Technique" as AT
+actor "Admin Pédagogique" as AP
+actor "Enseignant" as ENS
+actor "Élève" as ELV
+actor "Directeur" as DIR
+actor "Parent" as PAR
+actor "Claude Code" as CC <<system>>
+
+rectangle "Plateforme QCM" {
+  usecase "Gérer la banque de questions" as UC_BQ
+  usecase "Gérer les comptes utilisateurs" as UC_CU
+  usecase "Gérer les classes" as UC_CL
+  usecase "Créer & assigner des tests" as UC_TEST
+  usecase "Passer un test" as UC_PASS
+  usecase "Consulter les résultats" as UC_RES
+  usecase "Visualiser les statistiques" as UC_STAT
+  usecase "Accès rapide via magic link" as UC_ML
+}
+
+AT --> UC_BQ
+CC --> UC_BQ
+AP --> UC_BQ
+AP --> UC_CU
+ENS --> UC_CL
+ENS --> UC_TEST
+ENS --> UC_RES
+ENS --> UC_ML
+ELV --> UC_PASS
+ELV --> UC_RES
+DIR --> UC_STAT
+PAR --> UC_RES
+
+@enduml

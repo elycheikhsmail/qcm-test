@@ -1,0 +1,28 @@
+@startuml UC_Admin_Pedagogique
+left to right direction
+skinparam actorStyle awesome
+
+actor "Admin Pédagogique" as AP
+
+rectangle "Administration Pédagogique" {
+  usecase "Gérer les matières" as UC1
+  usecase "Gérer les niveaux scolaires" as UC2
+  usecase "Gérer les chapitres" as UC3
+  usecase "Valider les questions générées" as UC4
+  usecase "Créer un compte Enseignant" as UC5
+  usecase "Créer un compte Directeur" as UC6
+  usecase "Assigner des classes à un Directeur" as UC7
+  usecase "Désactiver un compte" as UC8
+}
+
+AP --> UC1
+AP --> UC2
+AP --> UC3
+AP --> UC4
+AP --> UC5
+AP --> UC6
+AP --> UC7
+AP --> UC8
+UC5 .> UC7 : <<extend>>
+
+@enduml

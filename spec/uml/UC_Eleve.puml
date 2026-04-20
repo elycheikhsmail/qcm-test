@@ -1,0 +1,35 @@
+@startuml UC_Eleve
+left to right direction
+skinparam actorStyle awesome
+
+actor "Élève" as ELV
+
+rectangle "Espace Élève" {
+  usecase "S'inscrire (tél / email / Google)" as UC1
+  usecase "Compléter son profil (nom, prénom)" as UC2
+  usecase "Rejoindre une classe (groupe)" as UC3
+  usecase "Demander à être ajouté individuellement" as UC4
+  usecase "Accéder via magic link (anonyme)" as UC5
+  usecase "Consulter ses tests assignés" as UC6
+  usecase "Passer un test assigné" as UC7
+  usecase "Générer un test autonome" as UC8
+  usecase "Consulter ses résultats" as UC9
+  usecase "Voir les corrections" as UC10
+}
+
+ELV --> UC1
+ELV --> UC3
+ELV --> UC4
+ELV --> UC5
+ELV --> UC6
+ELV --> UC7
+ELV --> UC8
+ELV --> UC9
+
+UC1 .> UC2 : <<include>>
+UC6 .> UC7 : <<include>>
+UC7 .> UC9 : <<include>>
+UC9 .> UC10 : <<include>>
+UC8 .> UC9 : <<include>>
+
+@enduml

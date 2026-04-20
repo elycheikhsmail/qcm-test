@@ -1,0 +1,84 @@
+{
+  "_comment": "Format JSON intermédiaire — questions mathématiques en attente de validation",
+  "_version": "1.1",
+  "_doc": "Un fichier = un chapitre d'un manuel. Le script d'import ne traite que les questions { validation.status: 'approved' }. L'IA peut enrichir les questions via le champ 'enrichissement' (second passage optionnel).",
+
+  "meta": {
+    "generated_at": "2026-04-10T14:30:00Z",
+    "generated_by": "claude_code",
+    "source_file": "Math_1AP_Manuel_eleve.pdf",
+    "niveau_code": "1AF",
+    "niveau_label": "1ère année Fondamentale",
+    "cycle": "Fondamental",
+    "option": null,
+    "chapitre_titre": "Les nombres de 0 à 10",
+    "chapitre_numero": 1,
+    "langue_principale": "fr",
+    "total_questions": 3
+  },
+
+  "questions": [
+    {
+      "id": "tmp_1AF_ch01_001",
+      "type": "qcm",
+      "langue": "fr",
+      "content": "Quel nombre vient juste après 7 ?",
+      "options": ["6", "7", "8", "9"],
+      "correct_answer": "8",
+      "difficulty": 1,
+      "page_source": 12,
+      "enrichissement": {
+        "explication": "Pour trouver le nombre qui suit 7, on avance d'une position sur la droite numérique : 7 + 1 = 8.",
+        "indice": "Compte sur tes doigts à partir de 7.",
+        "tags": ["suite numérique", "dénombrement"],
+        "enrichi_par": "claude_code",
+        "enrichi_at": "2026-04-10T15:00:00Z"
+      },
+      "validation": {
+        "status": "pending",
+        "confidence": "high",
+        "reviewer_notes": ""
+      }
+    },
+
+    {
+      "id": "tmp_1AF_ch01_002",
+      "type": "true_false",
+      "langue": "fr",
+      "content": "Le nombre 5 est plus grand que le nombre 9.",
+      "options": null,
+      "correct_answer": "false",
+      "difficulty": 1,
+      "page_source": 14,
+      "enrichissement": {
+        "explication": "5 est plus petit que 9 car 5 se trouve avant 9 sur la droite numérique.",
+        "indice": "Place les deux nombres sur la droite numérique : lequel est le plus à droite ?",
+        "tags": ["comparaison", "ordre des nombres"],
+        "enrichi_par": "claude_code",
+        "enrichi_at": "2026-04-10T15:00:00Z"
+      },
+      "validation": {
+        "status": "approved",
+        "confidence": "high",
+        "reviewer_notes": ""
+      }
+    },
+
+    {
+      "id": "tmp_1AF_ch01_003",
+      "type": "fill_blank",
+      "langue": "fr",
+      "content": "La suite des nombres : 5, 6, ___, 8, 9.",
+      "options": null,
+      "correct_answer": "7",
+      "difficulty": 1,
+      "page_source": 15,
+      "enrichissement": null,
+      "validation": {
+        "status": "rejected",
+        "confidence": "medium",
+        "reviewer_notes": "Énoncé ambigu — reformuler pour préciser qu'il faut trouver le nombre manquant."
+      }
+    }
+  ]
+}

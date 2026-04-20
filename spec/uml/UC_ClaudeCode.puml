@@ -1,0 +1,27 @@
+@startuml UC_ClaudeCode
+left to right direction
+skinparam actorStyle awesome
+
+actor "Admin Technique" as AT
+actor "Claude Code" as CC <<system>>
+
+rectangle "Pipeline de génération" {
+  usecase "Lire un manuel PDF" as UC1
+  usecase "Extraire les concepts clés" as UC2
+  usecase "Générer des questions QCM" as UC3
+  usecase "Générer des questions Vrai/Faux" as UC4
+  usecase "Générer des questions Association" as UC5
+  usecase "Exporter en JSON pour validation" as UC6
+  usecase "Insérer directement en base" as UC7
+}
+
+AT --> UC1
+CC --> UC1
+UC1 .> UC2 : <<include>>
+UC2 .> UC3 : <<include>>
+UC2 .> UC4 : <<include>>
+UC2 .> UC5 : <<include>>
+UC3 .> UC6 : <<extend>>
+UC3 .> UC7 : <<extend>>
+
+@enduml

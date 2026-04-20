@@ -1,0 +1,77 @@
+### Sprint 4 — API magic-link + quiz anonyme
+### Compatible avec l'extension VS Code "REST Client".
+### Prérequis :
+###   - bun run dev
+###   - DB peuplée (au moins 10 questions validées) — voir `bun run db:import ...`
+### Remplacer @admin par la valeur de ADMIN_TOKEN dans .env.local.
+
+@host = http://localhost:3000
+@admin = dev_admin_token_change_me
+
+### 0. Health
+GET {{host}}/api/health
+
+### 1. Catalog — matières / niveaux / chapitres
+GET {{host}}/api/quiz/subjects
+
+###
+GET {{host}}/api/quiz/levels
+
+###
+GET {{host}}/api/quiz/levels?subject_id=4
+
+###
+GET {{host}}/api/quiz/chapters?subject_id=4&level_id=7
+
+### 2. Magic link — création (admin)
+POST {{host}}/api/magic-links
+Content-Type: application/json
+X-Admin-Token: {{admin}}
+
+{
+  "level_id": 7,
+  "expires_in": 24,
+  "max_uses": 3
+}
+
+### 2b. Magic link — lecture (remplacer <TOKEN> par token renvoyé ci-dessus)
+GET {{host}}/api/magic-links/<TOKEN>
+
+### 3. Créer une session anonyme via magic link
+POST {{host}}/api/quiz/sessions
+Content-Type: application/json
+
+{
+  "token": "<TOKEN>",
+  "question_count": 5,
+  "difficulty": "facile"
+}
+
+### 3b. Créer une session anonyme sans magic link (filtre direct)
+POST {{host}}/api/quiz/sessions
+Content-Type: application/json
+
+{
+  "subject_id": 4,
+  "level_id": 7,
+  "question_count": 5
+}
+
+### 4. Questions de la session (sans correct_answer)
+GET {{host}}/api/quiz/sessions/1/questions
+
+### 5. Soumettre une réponse
+POST {{host}}/api/quiz/answers
+Content-Type: application/json
+
+{
+  "session_id": 1,
+  "question_id": 1,
+  "given_answer": "Réponse de test"
+}
+
+### 6. Finaliser la session
+POST {{host}}/api/quiz/sessions/1/submit
+
+### 7. Résultats (corrections)
+GET {{host}}/api/quiz/sessions/1/results
