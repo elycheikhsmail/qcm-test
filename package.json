@@ -22,6 +22,7 @@
     "magic-link": "bun --env-file=.env.local run scripts/generate-magic-link.ts",
     "create-enseignant": "bun --env-file=.env.local run scripts/create-enseignant.ts",
     "create-admin-ped": "bun --env-file=.env.local run scripts/create-admin-ped.ts",
+    "db:setup:test": "bun --env-file=.env.test run scripts/setup-test-db.ts",
     "seed:test": "bun --env-file=.env.test run scripts/seed-test-data.ts",
     "test": "bun --env-file=.env.test test tests/api",
     "test:watch": "bun --env-file=.env.test test --watch tests/api",
