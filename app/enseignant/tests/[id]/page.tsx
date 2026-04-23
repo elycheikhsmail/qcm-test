@@ -145,12 +145,26 @@ export default function TestDetailPage({ params }: { params: Promise<{ id: strin
             </h1>
             <p className="text-sm text-gray-500">Espace enseignant</p>
           </div>
-          <Link
-            href="/enseignant/tests"
-            className="text-sm text-gray-600 border border-gray-200 rounded-lg px-3 py-2 hover:bg-gray-50"
-          >
-            ← Mes tests
-          </Link>
+          <div className="flex gap-2">
+            <Link
+              href={`/enseignant/tests/${id}/results`}
+              className="text-sm text-white bg-blue-600 rounded-lg px-3 py-2 hover:bg-blue-700"
+            >
+              Résultats
+            </Link>
+            <Link
+              href={`/enseignant/tests/${id}/stats`}
+              className="text-sm text-gray-600 border border-gray-200 rounded-lg px-3 py-2 hover:bg-gray-50"
+            >
+              Stats
+            </Link>
+            <Link
+              href="/enseignant/tests"
+              className="text-sm text-gray-600 border border-gray-200 rounded-lg px-3 py-2 hover:bg-gray-50"
+            >
+              ← Mes tests
+            </Link>
+          </div>
         </div>
       </header>
 
