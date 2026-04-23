@@ -29,6 +29,23 @@ export async function requireAdminPed(): Promise<AuthResult> {
   return { user };
 }
 
+export async function requireDirecteur(): Promise<AuthResult> {
+  const user = await getCurrentUser();
+  if (!user) return error("Non authentifié", 401);
+  if (!["directeur", "admin_tech"].includes(user.role)) {
+    return error("Accès réservé aux directeurs", 403);
+  }
+  return { user };
+}
+
+export async function canAccessClasse(directeurId: number, classeId: number): Promise<boolean> {
+  const rows = await sql`
+    SELECT 1 FROM directeur_classes
+    WHERE directeur_id = ${directeurId} AND classe_id = ${classeId}
+  `;
+  return rows.length > 0;
+}
+
 export async function canManageClasse(
   userId: number,
   classeId: number,

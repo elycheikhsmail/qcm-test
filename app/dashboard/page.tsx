@@ -133,6 +133,12 @@ export default async function DashboardPage() {
           </div>
           <div className="flex items-center gap-3">
             <Link
+              href="/parent"
+              className="text-sm text-amber-700 hover:text-amber-900 border border-amber-200 bg-amber-50 rounded-lg px-3 py-2"
+            >
+              Vue Parent
+            </Link>
+            <Link
               href="/profil"
               className="text-sm text-gray-600 hover:text-gray-900 border border-gray-200 rounded-lg px-3 py-2"
             >

@@ -52,6 +52,28 @@
 - Migration : `db/migrations/001_auth_sessions.sql`
 - Next.js 16 : fichier proxy s'appelle `proxy.ts`, fonction exportée `proxy` (pas `middleware`)
 
+## Directeur (Sprint 12)
+
+- Auth guard : `requireDirecteur()` + `canAccessClasse(directeurId, classeId)` dans `lib/auth-guard.ts`
+- Proxy : `/directeur` protégé
+- Routes API :
+  - `GET /api/directeur/classes` — classes assignées via `directeur_classes`
+  - `GET /api/directeur/classes/:id` — stats tests (avg/min/max) pour la classe
+  - `GET /api/directeur/classes/:id/tests/:test_id` — stats par question + notes élèves
+  - `GET /api/directeur/eleves/:id` — profil élève + historique tests
+  - `GET /api/directeur/eleves/:id/evolution` — évolution hebdomadaire /20 par matière (12 semaines)
+- Pages : `/directeur/classes` | `/directeur/classes/[id]` | `/directeur/classes/[id]/tests/[test_id]` | `/directeur/eleves/[id]` | `/directeur/eleves/[id]/evolution`
+- Composant : `components/directeur/LineChart.tsx` — SVG natif, une courbe par matière
+
+## Parent (Sprint 12)
+
+- Option A : parent utilise les identifiants de l'enfant (`role = 'eleve'`)
+- Option B (compte dédié `role = 'parent'`) → différée
+- Proxy : `/parent` protégé
+- Route API : `GET /api/parent/summary` — moyenne globale + 5 derniers tests + indicateurs par matière
+- Page `/parent` : lecture seule, indicateurs vert/orange/rouge, aucune action disponible
+- Dashboard élève : bouton "Vue Parent" → `/parent`
+
 ## Auth étendue (Sprint 11)
 
 - Google OAuth : `GET /api/auth/google` (redirect) | `GET /api/auth/google/callback` (échange code + session)
