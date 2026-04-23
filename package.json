@@ -16,10 +16,12 @@
     "db:approve": "bun run scripts/approve-by-confidence.ts",
     "generate": "bun run scripts/generate_questions.ts",
     "validate": "bun run scripts/validate_questions.ts",
-    "export-diagrams": "bun run scripts/export-diagrams.ts"
+    "export-diagrams": "bun run scripts/export-diagrams.ts",
+    "magic-link": "bun --env-file=.env.local run scripts/generate-magic-link.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.40.0",
+    "@node-rs/argon2": "^2.0.2",
     "@types/node": "^25.6.0",
     "next": "^16.2.4",
     "postgres": "^3.4.9",
