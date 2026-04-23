@@ -134,22 +134,90 @@ try {
   `;
   console.log(`  ✅ directeur_classes OK`);
 
+  // ── Données de référence (matière / niveau / chapitre / questions) ──────────
+  console.log("\n📚 Données de référence :");
+
+  // Matière (subjects : id, name, language)
+  let subjectId: number;
+  const subjectExist = await sql<{ id: number }[]>`SELECT id FROM subjects WHERE name = 'Mathématiques Seed'`;
+  if (subjectExist.length) {
+    subjectId = subjectExist[0].id;
+    console.log(`  ↩ Matière déjà existante (id=${subjectId})`);
+  } else {
+    const [s] = await sql<{ id: number }[]>`
+      INSERT INTO subjects (name, language) VALUES ('Mathématiques Seed', 'fr') RETURNING id
+    `;
+    subjectId = s.id;
+    console.log(`  ✅ Matière créée (id=${subjectId})`);
+  }
+
+  // Niveau (levels : id, name, order) — name est UNIQUE globalement
+  let levelId: number;
+  const levelExist = await sql<{ id: number }[]>`SELECT id FROM levels WHERE name = 'Terminale Seed'`;
+  if (levelExist.length) {
+    levelId = levelExist[0].id;
+    console.log(`  ↩ Niveau déjà existant (id=${levelId})`);
+  } else {
+    const [l] = await sql<{ id: number }[]>`
+      INSERT INTO levels (name, "order") VALUES ('Terminale Seed', 1) RETURNING id
+    `;
+    levelId = l.id;
+    console.log(`  ✅ Niveau créé (id=${levelId})`);
+  }
+
+  // Chapitre (chapters : id, subject_id, level_id, title, description) — UNIQUE(subject_id, level_id, title)
+  let chapterId: number;
+  const chapterExist = await sql<{ id: number }[]>`
+    SELECT id FROM chapters WHERE title = 'Chapitre Seed' AND subject_id = ${subjectId} AND level_id = ${levelId}
+  `;
+  if (chapterExist.length) {
+    chapterId = chapterExist[0].id;
+    console.log(`  ↩ Chapitre déjà existant (id=${chapterId})`);
+  } else {
+    const [c] = await sql<{ id: number }[]>`
+      INSERT INTO chapters (title, subject_id, level_id)
+      VALUES ('Chapitre Seed', ${subjectId}, ${levelId})
+      RETURNING id
+    `;
+    chapterId = c.id;
+    console.log(`  ✅ Chapitre créé (id=${chapterId})`);
+  }
+
+  // Questions (3 QCM validées) — questions : chapter_id, type, content, options, correct_answer, difficulty, validated
+  const existingQs = await sql<{ id: number }[]>`
+    SELECT id FROM questions WHERE chapter_id = ${chapterId} AND validated = TRUE LIMIT 3
+  `;
+  if (existingQs.length < 3) {
+    const toCreate = 3 - existingQs.length;
+    for (let i = 0; i < toCreate; i++) {
+      const a = i + 2, b = i + 3;
+      await sql`
+        INSERT INTO questions (chapter_id, type, content, options, correct_answer, difficulty, validated)
+        VALUES (
+          ${chapterId}, 'qcm',
+          ${`Question seed ${i + 1 + existingQs.length} : combien font ${a} × ${b} ?`},
+          ${sql.json([`${a * b}`, `${a * b + 1}`, `${a * b - 1}`, `${a * (b + 1)}`])},
+          ${String(a * b)},
+          'facile', TRUE
+        )
+      `;
+    }
+    console.log(`  ✅ ${toCreate} question(s) créée(s)`);
+  } else {
+    console.log(`  ↩ Questions déjà présentes`);
+  }
+
   // ── Test formel ──────────────────────────────────────────────────────────
   console.log("\n📝 Test formel :");
-  // Prend 3 questions validées du chapitre 1
-  const questions = await sql<{ id: number; content: string; options: unknown; correct_answer: unknown; type: string; difficulty: string }[]>`
-    SELECT id, content, options, correct_answer, type, difficulty
-    FROM questions
-    WHERE validated = TRUE AND chapter_id = 1
+  const questions = await sql<{ id: number; correct_answer: unknown }[]>`
+    SELECT id, correct_answer FROM questions
+    WHERE chapter_id = ${chapterId} AND validated = TRUE
     LIMIT 3
   `;
-  if (questions.length < 3) {
-    console.log(`  ⚠️  Seulement ${questions.length} question(s) validée(s) dans chapter_id=1. Test créé avec ce qui est disponible.`);
-  }
 
   let testId: number;
   const testExist = await sql<{ id: number }[]>`
-    SELECT id FROM tests WHERE created_by = ${enseignantId} AND chapter_id = 1 AND question_count = 3
+    SELECT id FROM tests WHERE created_by = ${enseignantId} AND chapter_id = ${chapterId} AND question_count = 3
   `;
   if (testExist.length) {
     testId = testExist[0].id;
@@ -157,18 +225,16 @@ try {
   } else {
     const [t] = await sql<{ id: number }[]>`
       INSERT INTO tests (created_by, subject_id, level_id, chapter_id, difficulty, question_count, time_mode)
-      VALUES (${enseignantId}, 1, 7, 1, 'facile', ${questions.length}, 'libre')
+      VALUES (${enseignantId}, ${subjectId}, ${levelId}, ${chapterId}, 'facile', ${questions.length}, 'libre')
       RETURNING id
     `;
     testId = t.id;
     console.log(`  ✅ Test créé (id=${testId})`);
 
-    // Snapshots questions
     for (let i = 0; i < questions.length; i++) {
-      const q = questions[i];
       await sql`
         INSERT INTO test_questions (test_id, question_id, "order")
-        VALUES (${testId}, ${q.id}, ${i + 1})
+        VALUES (${testId}, ${questions[i].id}, ${i + 1})
         ON CONFLICT DO NOTHING
       `;
     }
