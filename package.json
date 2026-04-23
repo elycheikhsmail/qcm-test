@@ -19,7 +19,10 @@
     "export-diagrams": "bun run scripts/export-diagrams.ts",
     "magic-link": "bun --env-file=.env.local run scripts/generate-magic-link.ts",
     "create-enseignant": "bun --env-file=.env.local run scripts/create-enseignant.ts",
-    "create-admin-ped": "bun --env-file=.env.local run scripts/create-admin-ped.ts"
+    "create-admin-ped": "bun --env-file=.env.local run scripts/create-admin-ped.ts",
+    "seed:test": "bun --env-file=.env.local run scripts/seed-test-data.ts",
+    "test": "bun --env-file=.env.local test tests/api",
+    "test:watch": "bun --env-file=.env.local test --watch tests/api"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.40.0",

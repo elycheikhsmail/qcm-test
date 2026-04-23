@@ -36,7 +36,7 @@ export async function GET(
     SELECT
       s.id,
       s.score,
-      ROUND(s.score::float / ${test.question_count} * 20, 2) AS score_sur_20,
+      ROUND((s.score::float / ${test.question_count} * 20)::numeric, 2) AS score_sur_20,
       s.started_at,
       s.submitted_at,
       EXTRACT(EPOCH FROM (s.submitted_at - s.started_at))::int AS duration_seconds

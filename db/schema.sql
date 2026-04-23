@@ -141,6 +141,7 @@ CREATE TABLE IF NOT EXISTS tests (
   subject_id       INT REFERENCES subjects(id) ON DELETE SET NULL,
   level_id         INT REFERENCES levels(id) ON DELETE SET NULL,
   chapter_id       INT REFERENCES chapters(id) ON DELETE SET NULL,
+  title            TEXT,
   difficulty       TEXT CHECK (difficulty IN ('facile','moyen','difficile')),
   question_count   INT NOT NULL DEFAULT 10,
   time_mode        TEXT NOT NULL DEFAULT 'libre' CHECK (time_mode IN ('libre','chrono','deadline')),

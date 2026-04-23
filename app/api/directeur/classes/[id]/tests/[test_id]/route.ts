@@ -25,8 +25,8 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     SELECT q.id, q.content, q.difficulty,
            COUNT(*) AS nb_reponses,
            COUNT(*) FILTER (WHERE a.is_correct) AS nb_correct,
-           ROUND(COUNT(*) FILTER (WHERE a.is_correct)::float / NULLIF(COUNT(*),0) * 100, 1) AS taux_reussite,
-           ROUND(AVG(a.time_spent_seconds) FILTER (WHERE a.time_spent_seconds IS NOT NULL), 1) AS temps_moyen
+           ROUND((COUNT(*) FILTER (WHERE a.is_correct)::float / NULLIF(COUNT(*),0) * 100)::numeric, 1) AS taux_reussite,
+           NULL::numeric AS temps_moyen
     FROM test_questions tq
     JOIN questions q ON q.id = tq.question_id
     LEFT JOIN answers a ON a.question_id = q.id
@@ -45,7 +45,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
   const eleves = await sql`
     SELECT u.id, u.first_name, u.last_name,
            s.score,
-           ROUND(s.score::float / ${test.question_count} * 20, 1) AS score_sur_20,
+           ROUND((s.score::float / ${test.question_count} * 20)::numeric, 1) AS score_sur_20,
            s.submitted_at
     FROM classe_eleves ce
     JOIN users u ON u.id = ce.eleve_id

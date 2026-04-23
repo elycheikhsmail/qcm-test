@@ -16,7 +16,7 @@ export async function GET() {
 
   // Moyenne globale + nb tests
   const [agg] = await sql`
-    SELECT ROUND(AVG(s.score::float / t.question_count * 20), 1) AS moyenne_globale,
+    SELECT ROUND(AVG(s.score::float / t.question_count * 20)::numeric, 1) AS moyenne_globale,
            COUNT(*) AS nb_tests
     FROM sessions s
     JOIN tests t ON t.id = s.test_id
@@ -27,7 +27,7 @@ export async function GET() {
   const recent = await sql`
     SELECT s.id AS session_id, COALESCE(t.title, 'Test #' || t.id) AS test_title,
            t.question_count, s.score,
-           ROUND(s.score::float / t.question_count * 20, 1) AS score_sur_20,
+           ROUND((s.score::float / t.question_count * 20)::numeric, 1) AS score_sur_20,
            s.submitted_at,
            sub.name AS subject_name
     FROM sessions s
@@ -41,7 +41,7 @@ export async function GET() {
   // Indicateurs par matière (moyenne /20)
   const bySubject = await sql`
     SELECT sub.name AS subject_name,
-           ROUND(AVG(s.score::float / t.question_count * 20), 1) AS moyenne
+           ROUND(AVG(s.score::float / t.question_count * 20)::numeric, 1) AS moyenne
     FROM sessions s
     JOIN tests t ON t.id = s.test_id
     LEFT JOIN subjects sub ON sub.id = t.subject_id

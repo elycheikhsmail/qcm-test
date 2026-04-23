@@ -31,9 +31,9 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     SELECT t.id, COALESCE(t.title, 'Test #' || t.id) AS title,
            t.question_count, t.created_at,
            COUNT(s.id) FILTER (WHERE s.submitted_at IS NOT NULL) AS nb_soumis,
-           ROUND(AVG(s.score::float / t.question_count * 20) FILTER (WHERE s.submitted_at IS NOT NULL), 1) AS moyenne,
-           ROUND(MIN(s.score::float / t.question_count * 20) FILTER (WHERE s.submitted_at IS NOT NULL), 1) AS min_score,
-           ROUND(MAX(s.score::float / t.question_count * 20) FILTER (WHERE s.submitted_at IS NOT NULL), 1) AS max_score
+           ROUND((AVG(s.score::float / t.question_count * 20) FILTER (WHERE s.submitted_at IS NOT NULL))::numeric, 1) AS moyenne,
+           ROUND((MIN(s.score::float / t.question_count * 20) FILTER (WHERE s.submitted_at IS NOT NULL))::numeric, 1) AS min_score,
+           ROUND((MAX(s.score::float / t.question_count * 20) FILTER (WHERE s.submitted_at IS NOT NULL))::numeric, 1) AS max_score
     FROM test_assignments ta
     JOIN tests t ON t.id = ta.test_id
     LEFT JOIN sessions s ON s.test_id = t.id

@@ -31,7 +31,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
            COALESCE(t.title, 'Test #' || t.id) AS test_title,
            t.question_count,
            s.score,
-           ROUND(s.score::float / t.question_count * 20, 1) AS score_sur_20,
+           ROUND((s.score::float / t.question_count * 20)::numeric, 1) AS score_sur_20,
            s.submitted_at,
            s.started_at,
            sub.name AS subject_name
@@ -45,7 +45,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
 
   // Moyenne globale
   const [agg] = await sql`
-    SELECT ROUND(AVG(s.score::float / t.question_count * 20), 1) AS moyenne_globale,
+    SELECT ROUND(AVG(s.score::float / t.question_count * 20)::numeric, 1) AS moyenne_globale,
            COUNT(*) AS nb_tests
     FROM sessions s
     JOIN tests t ON t.id = s.test_id

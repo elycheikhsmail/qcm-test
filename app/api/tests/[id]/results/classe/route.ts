@@ -41,9 +41,9 @@ export async function GET(
   const [agg] = await sql`
     SELECT
       COUNT(*)::int AS nb_eleves,
-      ROUND(AVG(s.score::float / ${test.question_count} * 20), 2) AS moyenne,
-      ROUND(MIN(s.score::float / ${test.question_count} * 20), 2) AS min_score,
-      ROUND(MAX(s.score::float / ${test.question_count} * 20), 2) AS max_score
+      ROUND((AVG(s.score::float / ${test.question_count} * 20))::numeric, 2) AS moyenne,
+      ROUND((MIN(s.score::float / ${test.question_count} * 20))::numeric, 2) AS min_score,
+      ROUND((MAX(s.score::float / ${test.question_count} * 20))::numeric, 2) AS max_score
     FROM sessions s
     WHERE s.test_id = ${testId}
       AND s.submitted_at IS NOT NULL
@@ -74,7 +74,7 @@ export async function GET(
       u.last_name,
       u.email,
       s.score,
-      ROUND(s.score::float / ${test.question_count} * 20, 2) AS score_sur_20,
+      ROUND((s.score::float / ${test.question_count} * 20)::numeric, 2) AS score_sur_20,
       s.submitted_at,
       EXTRACT(EPOCH FROM (s.submitted_at - s.started_at))::int AS duration_seconds
     FROM sessions s

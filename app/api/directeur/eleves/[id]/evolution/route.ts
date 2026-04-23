@@ -23,7 +23,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
   const rows = await sql`
     SELECT DATE_TRUNC('week', s.submitted_at)::date AS semaine,
            sub.name AS subject_name,
-           ROUND(AVG(s.score::float / t.question_count * 20), 1) AS moyenne
+           ROUND(AVG(s.score::float / t.question_count * 20)::numeric, 1) AS moyenne
     FROM sessions s
     JOIN tests t ON t.id = s.test_id
     LEFT JOIN subjects sub ON sub.id = t.subject_id
