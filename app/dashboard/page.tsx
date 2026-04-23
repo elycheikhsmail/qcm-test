@@ -22,6 +22,21 @@ async function getQuizHistory(userId: number) {
   `;
 }
 
+async function getMesClasses(userId: number) {
+  return sql`
+    SELECT
+      c.id, c.nom, c.niveau, c.filiere, c.annee_scolaire,
+      e.nom AS etablissement_nom,
+      ce.status,
+      ce.joined_at
+    FROM classe_eleves ce
+    JOIN classes c ON c.id = ce.classe_id
+    LEFT JOIN etablissements e ON e.id = c.etablissement_id
+    WHERE ce.eleve_id = ${userId} AND ce.status IN ('active', 'pending')
+    ORDER BY ce.joined_at DESC
+  `;
+}
+
 function formatDate(d: Date | string | null) {
   if (!d) return "—";
   return new Date(d).toLocaleDateString("fr-FR", {
@@ -37,7 +52,18 @@ export default async function DashboardPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
 
-  const history = await getQuizHistory(user.id);
+  // Rediriger les enseignants vers leur espace
+  if (["enseignant", "admin_ped"].includes(user.role)) {
+    redirect("/enseignant/classes");
+  }
+
+  const [history, mesClasses] = await Promise.all([
+    getQuizHistory(user.id),
+    getMesClasses(user.id),
+  ]);
+
+  const classesActives = mesClasses.filter((c) => c.status === "active");
+  const classesPending = mesClasses.filter((c) => c.status === "pending");
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -69,7 +95,63 @@ export default async function DashboardPage() {
       </header>
 
       <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
-        {/* Tests assignés — vide en S7 */}
+
+        {/* ── Mes classes ────────────────────────────────────── */}
+        <section>
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-base font-semibold text-gray-900">Mes classes</h2>
+            <JoinClasseButton />
+          </div>
+
+          {mesClasses.length === 0 ? (
+            <div className="bg-white rounded-xl border border-gray-200 p-6 text-center text-gray-400 text-sm">
+              Vous n&apos;êtes inscrit à aucune classe.{" "}
+              <JoinClasseInline />
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {/* Demandes en attente */}
+              {classesPending.length > 0 && (
+                <div className="bg-amber-50 border border-amber-200 rounded-xl divide-y divide-amber-100">
+                  {classesPending.map((c) => (
+                    <div key={c.id as number} className="flex items-center justify-between px-4 py-3">
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">{c.nom as string}</p>
+                        <p className="text-xs text-gray-500">
+                          {c.niveau as string}{c.filiere ? ` — ${c.filiere}` : ""} · {c.annee_scolaire as string}
+                        </p>
+                      </div>
+                      <span className="text-xs bg-amber-100 text-amber-700 rounded-full px-2 py-0.5">
+                        En attente
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {/* Classes actives */}
+              {classesActives.length > 0 && (
+                <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
+                  {classesActives.map((c) => (
+                    <div key={c.id as number} className="flex items-center justify-between px-4 py-3">
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">{c.nom as string}</p>
+                        <p className="text-xs text-gray-500">
+                          {c.niveau as string}{c.filiere ? ` — ${c.filiere}` : ""}
+                          {c.etablissement_nom ? ` · ${c.etablissement_nom as string}` : ""}
+                        </p>
+                      </div>
+                      <span className="text-xs bg-emerald-50 text-emerald-700 rounded-full px-2 py-0.5">
+                        Actif
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </section>
+
+        {/* ── Tests assignés ─────────────────────────────────── */}
         <section>
           <h2 className="text-base font-semibold text-gray-900 mb-3">
             Tests assignés
@@ -79,17 +161,7 @@ export default async function DashboardPage() {
           </div>
         </section>
 
-        {/* Historique supervisés — vide en S7 */}
-        <section>
-          <h2 className="text-base font-semibold text-gray-900 mb-3">
-            Historique — sessions supervisées
-          </h2>
-          <div className="bg-white rounded-xl border border-gray-200 p-6 text-center text-gray-400 text-sm">
-            Aucune session supervisée.
-          </div>
-        </section>
-
-        {/* Historique autonomes */}
+        {/* ── Historique sessions autonomes ──────────────────── */}
         <section>
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-base font-semibold text-gray-900">
@@ -152,5 +224,27 @@ export default async function DashboardPage() {
         </section>
       </div>
     </main>
+  );
+}
+
+// ── Composants inline join (client boundary non nécessaire ici,
+//    on utilise un simple lien vers la page /classes/join) ──────
+
+function JoinClasseButton() {
+  return (
+    <Link
+      href="/classes/join"
+      className="text-sm border border-blue-600 text-blue-600 rounded-lg px-3 py-1.5 hover:bg-blue-50 transition-colors"
+    >
+      + Rejoindre une classe
+    </Link>
+  );
+}
+
+function JoinClasseInline() {
+  return (
+    <Link href="/classes/join" className="text-blue-600 hover:underline">
+      Rejoindre une classe
+    </Link>
   );
 }

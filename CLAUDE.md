@@ -47,6 +47,23 @@
 - Hash passwords : `@node-rs/argon2` (argon2id)
 - Routes API : `POST /api/auth/register` | `POST /api/auth/login` | `POST /api/auth/logout` | `GET /api/me` | `PATCH /api/me`
 - Pages : `/signup` | `/login` | `/dashboard` | `/profil`
-- Proxy (middleware) : `proxy.ts` — protège `/dashboard` et `/profil` (redirect `/login` si pas de cookie)
+- Proxy (middleware) : `proxy.ts` — protège `/dashboard`, `/profil`, `/enseignant`, `/classes/join` (redirect `/login` si pas de cookie)
 - Migration : `db/migrations/001_auth_sessions.sql`
 - Next.js 16 : fichier proxy s'appelle `proxy.ts`, fonction exportée `proxy` (pas `middleware`)
+
+## Classes enseignant (Sprint 8)
+
+- Auth guard : `lib/auth-guard.ts` (requireAuth, requireEnseignant, canManageClasse, isNextResponse)
+- Seed : `bun run create-enseignant` | `bun run create-admin-ped`
+- Routes API enseignant :
+  - `GET|POST /api/etablissements`
+  - `GET|POST /api/classes` (GET : mes classes selon le rôle)
+  - `GET /api/classes/:id`
+  - `POST /api/classes/:id/eleves` (ajout par email ou bulk)
+  - `POST /api/classes/:id/join` (élève → pending)
+  - `POST /api/classes/:id/eleves/:eleve_id/accept` (pending → active)
+  - `POST /api/magic-links/classe` (magic link rattaché à une classe)
+- Pages enseignant : `/enseignant/classes` | `/enseignant/classes/[id]`
+- Page élève : `/classes/join` (rejoindre par identifiant)
+- Dashboard `/dashboard` : section "Mes classes" + redirect enseignant → `/enseignant/classes`
+- RBAC : `canManageClasse(userId, classeId)` vérifie `classe_enseignants` — utilisé dans toutes les routes enseignant
