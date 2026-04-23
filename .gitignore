@@ -7,6 +7,7 @@ build/
 .env
 .env.local
 .env.*.local
+.env.test
 
 # Bun / deno lock conservés ? oui (bun.lock committé), deno.lock aussi
 # Ne rien changer ici
@@ -24,3 +25,8 @@ Thumbs.db
 # Next.js
 next-env.d.ts
 .vercel
+
+# Playwright
+playwright-report/
+test-results/
+tests/e2e/.auth/
