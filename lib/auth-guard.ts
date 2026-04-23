@@ -20,6 +20,15 @@ export async function requireEnseignant(): Promise<AuthResult> {
   return { user };
 }
 
+export async function requireAdminPed(): Promise<AuthResult> {
+  const user = await getCurrentUser();
+  if (!user) return error("Non authentifié", 401);
+  if (!["admin_ped", "admin_tech"].includes(user.role)) {
+    return error("Accès réservé aux administrateurs pédagogiques", 403);
+  }
+  return { user };
+}
+
 export async function canManageClasse(
   userId: number,
   classeId: number,

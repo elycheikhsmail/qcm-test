@@ -52,6 +52,29 @@
 - Migration : `db/migrations/001_auth_sessions.sql`
 - Next.js 16 : fichier proxy s'appelle `proxy.ts`, fonction exportée `proxy` (pas `middleware`)
 
+## Auth étendue (Sprint 11)
+
+- Google OAuth : `GET /api/auth/google` (redirect) | `GET /api/auth/google/callback` (échange code + session)
+- CSRF state stocké dans cookie httpOnly `oauth_state` (TTL 5 min)
+- Liaison de compte : si l'email Google correspond à un user email existant → `google_id` mis à jour
+- Env requis : `GOOGLE_CLIENT_ID` | `GOOGLE_CLIENT_SECRET` | `APP_URL`
+- Bouton Google sur `/login` et `/signup`
+- OTP téléphone → différé (provider SMS mauritanien non configuré)
+
+## Admin Pédagogique (Sprint 11)
+
+- Auth guard : `requireAdminPed()` dans `lib/auth-guard.ts` (rôles `admin_ped`, `admin_tech`)
+- Proxy : `/admin-ped` protégé (redirect `/login` si pas de session)
+- Routes API :
+  - `GET /api/admin-ped/questions` (filtres: subject_id, level_id, chapter_id, validated)
+  - `GET|PATCH /api/admin-ped/questions/:id`
+  - `POST /api/admin-ped/questions/:id/approve` | `POST /api/admin-ped/questions/:id/reject`
+  - `GET|POST /api/admin-ped/subjects` | `PATCH|DELETE /api/admin-ped/subjects/:id`
+  - `GET|POST /api/admin-ped/levels` | `PATCH|DELETE /api/admin-ped/levels/:id`
+  - `GET|POST /api/admin-ped/chapters` | `PATCH|DELETE /api/admin-ped/chapters/:id`
+- Pages : `/admin-ped` | `/admin-ped/questions` | `/admin-ped/questions/[id]` | `/admin-ped/matieres` | `/admin-ped/niveaux` | `/admin-ped/chapitres`
+- Layout : `app/admin-ped/layout.tsx` — vérif rôle serveur + nav
+
 ## Classes enseignant (Sprint 8)
 
 - Auth guard : `lib/auth-guard.ts` (requireAuth, requireEnseignant, canManageClasse, isNextResponse)
