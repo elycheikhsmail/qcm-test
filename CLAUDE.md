@@ -5,6 +5,7 @@
 3. **Mettre à jour ce fichier après chaque modification**
 4. Utiliser git pour gérer les changements
 5. **À la fin de chaque réponse**, ajouter `j'ai terminé la tâche` si la tâche est complète, ou `j'ai terminé X% de la tâche` si elle est partielle
+6. **Merger dans `main` après chaque tâche terminée** : dès qu'une tâche est complète, merger la branche courante dans `main` (`git checkout main && git merge <branche> --no-ff && git checkout <branche>`)
 
 ## Stack
 
