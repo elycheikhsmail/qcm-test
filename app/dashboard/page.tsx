@@ -3,6 +3,23 @@ import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import { sql } from "@/lib/db";
 
+type AssignedTest = {
+  id: number;
+  title: string | null;
+  time_mode: string;
+  duration_minutes: number | null;
+  deadline_at: string | null;
+  question_count: number;
+  difficulty: string | null;
+  subject_name: string | null;
+  level_name: string | null;
+  enseignant_first_name: string | null;
+  enseignant_last_name: string | null;
+  session_id: number | null;
+  session_submitted_at: string | null;
+  session_started_at: string | null;
+};
+
 async function getQuizHistory(userId: number) {
   return sql`
     SELECT
@@ -20,6 +37,44 @@ async function getQuizHistory(userId: number) {
     ORDER BY s.started_at DESC
     LIMIT 50
   `;
+}
+
+async function getTestsAssignes(userId: number): Promise<AssignedTest[]> {
+  const rows = await sql`
+    SELECT DISTINCT ON (t.id)
+      t.id,
+      t.title,
+      t.time_mode,
+      t.duration_minutes,
+      t.deadline_at,
+      t.question_count,
+      t.difficulty,
+      s.name  AS subject_name,
+      l.name  AS level_name,
+      u.first_name AS enseignant_first_name,
+      u.last_name  AS enseignant_last_name,
+      sess.id           AS session_id,
+      sess.submitted_at AS session_submitted_at,
+      sess.started_at   AS session_started_at
+    FROM test_assignments ta
+    JOIN tests t ON t.id = ta.test_id
+    LEFT JOIN subjects  s ON s.id = t.subject_id
+    LEFT JOIN levels    l ON l.id = t.level_id
+    LEFT JOIN users     u ON u.id = t.created_by
+    LEFT JOIN sessions sess
+           ON sess.test_id = t.id
+          AND sess.eleve_id = ${userId}
+          AND sess.is_anonymous = FALSE
+    WHERE
+      (ta.target_type = 'eleve' AND ta.target_id = ${userId})
+      OR
+      (ta.target_type = 'classe' AND ta.target_id IN (
+        SELECT classe_id FROM classe_eleves
+        WHERE eleve_id = ${userId} AND status = 'active'
+      ))
+    ORDER BY t.id, ta.assigned_at DESC
+  `;
+  return rows as unknown as AssignedTest[];
 }
 
 async function getMesClasses(userId: number) {
@@ -57,9 +112,10 @@ export default async function DashboardPage() {
     redirect("/enseignant/classes");
   }
 
-  const [history, mesClasses] = await Promise.all([
+  const [history, mesClasses, testsAssignes] = await Promise.all([
     getQuizHistory(user.id),
     getMesClasses(user.id),
+    getTestsAssignes(user.id),
   ]);
 
   const classesActives = mesClasses.filter((c) => c.status === "active");
@@ -153,12 +209,62 @@ export default async function DashboardPage() {
 
         {/* ── Tests assignés ─────────────────────────────────── */}
         <section>
-          <h2 className="text-base font-semibold text-gray-900 mb-3">
-            Tests assignés
-          </h2>
-          <div className="bg-white rounded-xl border border-gray-200 p-6 text-center text-gray-400 text-sm">
-            Aucun test assigné pour le moment.
-          </div>
+          <h2 className="text-base font-semibold text-gray-900 mb-3">Tests assignés</h2>
+          {testsAssignes.length === 0 ? (
+            <div className="bg-white rounded-xl border border-gray-200 p-6 text-center text-gray-400 text-sm">
+              Aucun test assigné pour le moment.
+            </div>
+          ) : (
+            <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
+              {testsAssignes.map((t) => {
+                const isPast = t.time_mode === "deadline" && t.deadline_at && new Date(t.deadline_at) < new Date();
+                const isSubmitted = !!t.session_submitted_at;
+                const isStarted = !!t.session_started_at && !isSubmitted;
+                return (
+                  <div key={t.id} className="flex items-center justify-between px-4 py-3">
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-gray-900 truncate">
+                        {t.title ?? `Test #${t.id}`}
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        {[t.subject_name, t.level_name].filter(Boolean).join(" · ") || "Quiz"}
+                        {" · "}
+                        {t.question_count} questions
+                        {t.enseignant_last_name && ` · ${t.enseignant_first_name ?? ""} ${t.enseignant_last_name}`}
+                      </p>
+                      {t.time_mode === "deadline" && t.deadline_at && (
+                        <p className={`text-xs mt-0.5 ${isPast ? "text-red-500" : "text-amber-600"}`}>
+                          Deadline : {formatDate(t.deadline_at)}
+                        </p>
+                      )}
+                      {t.time_mode === "chrono" && (
+                        <p className="text-xs text-blue-600 mt-0.5">Chrono : {t.duration_minutes} min</p>
+                      )}
+                    </div>
+                    <div className="shrink-0 ml-4">
+                      {isSubmitted ? (
+                        <Link
+                          href={`/quiz/${t.session_id}/results`}
+                          className="text-xs bg-emerald-50 text-emerald-700 rounded-full px-3 py-1 hover:bg-emerald-100"
+                        >
+                          Résultats
+                        </Link>
+                      ) : isPast ? (
+                        <span className="text-xs text-red-500 bg-red-50 rounded-full px-3 py-1">Expiré</span>
+                      ) : (
+                        <Link
+                          href={`/quiz/test/${t.id}`}
+                          className="text-xs bg-blue-600 text-white rounded-full px-3 py-1.5 hover:bg-blue-700"
+                        >
+                          {isStarted ? "Continuer →" : "Commencer →"}
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </section>
 
         {/* ── Historique sessions autonomes ──────────────────── */}

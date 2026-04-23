@@ -89,6 +89,12 @@ export default function EnseignantClassesPage() {
             <p className="text-sm text-gray-500">Espace enseignant</p>
           </div>
           <div className="flex items-center gap-3">
+            <a
+              href="/enseignant/tests"
+              className="text-sm text-gray-600 border border-gray-200 rounded-lg px-3 py-2 hover:bg-gray-50"
+            >
+              Mes tests
+            </a>
             <button
               onClick={() => setShowForm(!showForm)}
               className="text-sm bg-blue-600 text-white rounded-lg px-4 py-2 hover:bg-blue-700 transition-colors"
