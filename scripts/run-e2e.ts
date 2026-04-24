@@ -43,7 +43,30 @@ while (true) {
   await Bun.sleep(POLL_MS);
 }
 
-console.log("✅ Serveur prêt.\n");
+console.log("✅ Serveur prêt.");
+
+// ── 2b. Préchauffer les routes critiques (compilation lazy en dev) ─────────
+console.log("🔥 Préchauffage des routes…");
+const WARMUP_ROUTES: Array<{ url: string; init?: RequestInit }> = [
+  {
+    url: `http://localhost:${PORT}/api/auth/login`,
+    init: {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: "warmup@x.local", password: "warmup" }),
+    },
+  },
+  { url: `http://localhost:${PORT}/api/auth/logout`, init: { method: "POST" } },
+];
+
+for (const { url, init } of WARMUP_ROUTES) {
+  try {
+    await fetch(url, init);
+  } catch {
+    // ignore — juste déclencher la compilation
+  }
+}
+console.log("✅ Routes préchauffées.\n");
 
 // ── 3. Lancer Playwright ────────────────────────────────────────────────────
 const playwrightArgs = ["playwright", "test"];
@@ -66,8 +89,56 @@ const pw = spawn({
 
 const exitCode = await pw.exited;
 
-// ── 4. Arrêter le serveur ──────────────────────────────────────────────────
-console.log("\n🛑 Arrêt du serveur de test…");
+// ── 4. Générer le résumé Markdown ─────────────────────────────────────────
+try {
+  const reportPath = "test-results/report.json";
+  const summaryPath = "test-results/summary.md";
+  const raw = await Bun.file(reportPath).text();
+  const report = JSON.parse(raw) as {
+    stats: { expected: number; unexpected: number; skipped: number; duration: number };
+    suites: Array<{
+      title: string;
+      suites?: Array<{ title: string; specs: Array<{ title: string; tests: Array<{ status: string; results: Array<{ error?: { message?: string } }> }> }> }>;
+    }>;
+  };
+
+  const { expected, unexpected, skipped, duration } = report.stats;
+  const total = expected + unexpected + skipped;
+  const icon = unexpected === 0 ? "✅" : "❌";
+  const lines: string[] = [
+    `# Rapport E2E — ${new Date().toLocaleString("fr-FR")}`,
+    "",
+    `${icon} **${expected} passés** / ${total} tests · ${unexpected} échoués · ${skipped} ignorés · ${(duration / 1000).toFixed(1)}s`,
+    "",
+  ];
+
+  if (unexpected > 0) {
+    lines.push("## Tests échoués\n");
+    for (const suite of report.suites) {
+      for (const sub of suite.suites ?? []) {
+        for (const spec of sub.specs) {
+          for (const test of spec.tests) {
+            if (test.status !== "expected") {
+              lines.push(`### ❌ ${suite.title} › ${sub.title} › ${spec.title}`);
+              const msg = test.results[0]?.error?.message ?? "";
+              const firstLine = msg.split("\n")[0].slice(0, 200);
+              if (firstLine) lines.push(`\`\`\`\n${firstLine}\n\`\`\``);
+              lines.push("");
+            }
+          }
+        }
+      }
+    }
+  }
+
+  await Bun.write(summaryPath, lines.join("\n"));
+  console.log(`\n📄 Résumé : ${summaryPath}`);
+} catch {
+  // rapport JSON absent (ex: --ui mode)
+}
+
+// ── 5. Arrêter le serveur ──────────────────────────────────────────────────
+console.log("🛑 Arrêt du serveur de test…");
 server.kill();
 await server.exited;
 
