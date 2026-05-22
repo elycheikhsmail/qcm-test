@@ -86,7 +86,8 @@
       "Bash(bun --env-file=.env.local run scripts-debug/check-levels.ts)",
       "Bash(bun --env-file=.env.local run scripts-debug/apply-migration-004.ts)",
       "Bash(grep -E \"\\\\.ts$|^d\")",
-      "Bash(find /c/Users/Dell/Desktop/claude-workspace/qcm-systeme -maxdepth 2 -type f -name \"*.ts\" -o -name \"*.tsx\" | head -60)"
+      "Bash(find /c/Users/Dell/Desktop/claude-workspace/qcm-systeme -maxdepth 2 -type f -name \"*.ts\" -o -name \"*.tsx\" | head -60)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }
