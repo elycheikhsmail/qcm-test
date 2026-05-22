@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 type User = {
   id: number;
@@ -71,25 +70,17 @@ export default function ProfilPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <main className="bg-gray-50 min-h-screen flex items-center justify-center">
         <p className="text-gray-400 text-sm">Chargement…</p>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200 px-4 py-4">
-        <div className="max-w-lg mx-auto flex items-center gap-3">
-          <Link href="/dashboard" className="text-gray-400 hover:text-gray-600 text-sm">
-            ← Tableau de bord
-          </Link>
-          <span className="text-gray-300">/</span>
-          <span className="text-sm font-medium text-gray-900">Mon profil</span>
-        </div>
-      </header>
-
+    <main className="bg-gray-50 min-h-screen">
       <div className="max-w-lg mx-auto px-4 py-8">
+        <h1 className="text-lg font-bold text-gray-900 mb-6">Mon profil</h1>
+
         <div className="bg-white rounded-xl border border-gray-200 p-6">
           <div className="mb-6">
             <p className="text-xs text-gray-400 uppercase tracking-wide">Email</p>

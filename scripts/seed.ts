@@ -14,22 +14,21 @@ if (!url) {
 const sql = postgres(url, { max: 1, connect_timeout: 10 });
 
 // ─── NIVEAUX ──────────────────────────────────────────────────────────────────
-// Mauritanie : Fondamental 1AF-6AF, Secondaire 1er cycle 1AS-4AS,
-//              Secondaire 2ème cycle 5AS-7AS (Terminale = 7AS)
+// Mauritanie : Fondamental 1AF-6AF, Collège 1AS-4AS, Lycée 5AS-7AS (Terminale)
 const LEVELS = [
-  { name: "1AF", order: 1 },
-  { name: "2AF", order: 2 },
-  { name: "3AF", order: 3 },
-  { name: "4AF", order: 4 },
-  { name: "5AF", order: 5 },
-  { name: "6AF", order: 6 },
-  { name: "1AS", order: 7 },
-  { name: "2AS", order: 8 },
-  { name: "3AS", order: 9 },
-  { name: "4AS", order: 10 },
-  { name: "5AS", order: 11 },
-  { name: "6AS", order: 12 },
-  { name: "7AS", order: 13 },
+  { name: "1AF", order: 1,  cycle: "fondamental" },
+  { name: "2AF", order: 2,  cycle: "fondamental" },
+  { name: "3AF", order: 3,  cycle: "fondamental" },
+  { name: "4AF", order: 4,  cycle: "fondamental" },
+  { name: "5AF", order: 5,  cycle: "fondamental" },
+  { name: "6AF", order: 6,  cycle: "fondamental" },
+  { name: "1AS", order: 7,  cycle: "college" },
+  { name: "2AS", order: 8,  cycle: "college" },
+  { name: "3AS", order: 9,  cycle: "college" },
+  { name: "4AS", order: 10, cycle: "college" },
+  { name: "5AS", order: 11, cycle: "lycee" },
+  { name: "6AS", order: 12, cycle: "lycee" },
+  { name: "7AS", order: 13, cycle: "lycee" },
 ];
 
 // ─── MATIÈRE PILOTE ───────────────────────────────────────────────────────────
@@ -80,9 +79,9 @@ try {
   // 1. Niveaux
   for (const lvl of LEVELS) {
     await sql`
-      INSERT INTO levels (name, "order")
-      VALUES (${lvl.name}, ${lvl.order})
-      ON CONFLICT (name) DO NOTHING
+      INSERT INTO levels (name, "order", cycle)
+      VALUES (${lvl.name}, ${lvl.order}, ${lvl.cycle})
+      ON CONFLICT (name) DO UPDATE SET cycle = EXCLUDED.cycle
     `;
   }
   console.log(`✅ ${LEVELS.length} niveaux insérés (ou déjà présents)`);

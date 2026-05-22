@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function JoinClassePage() {
@@ -26,13 +25,10 @@ export default function JoinClassePage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+    <main className="bg-gray-50 min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-white rounded-xl border border-gray-200 p-8 space-y-6">
         <div>
-          <Link href="/dashboard" className="text-sm text-blue-600 hover:underline">
-            ← Retour au tableau de bord
-          </Link>
-          <h1 className="text-xl font-bold text-gray-900 mt-3">Rejoindre une classe</h1>
+          <h1 className="text-xl font-bold text-gray-900">Rejoindre une classe</h1>
           <p className="text-sm text-gray-500 mt-1">
             Entrez l&apos;identifiant de la classe fourni par votre enseignant.
           </p>

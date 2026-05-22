@@ -5,7 +5,16 @@
 3. **Mettre à jour ce fichier après chaque modification**
 4. Utiliser git pour gérer les changements
 5. **À la fin de chaque réponse**, ajouter `j'ai terminé la tâche` si la tâche est complète, ou `j'ai terminé X% de la tâche` si elle est partielle
-6. **Merger dans `main` après chaque tâche terminée** : dès qu'une tâche est complète, merger la branche courante dans `main` (`git checkout main && git merge <branche> --no-ff && git checkout <branche>`)
+6. **Scripts de débogage dans `scripts-debug/`** : pour tout diagnostic non trivial (inspection DB, parsing de données, vérification d'état multi-étapes), écrire un script `.ts` dans `scripts-debug/` et l'exécuter avec `bun run scripts-debug/<nom>.ts`. Ne jamais écrire de commandes PowerShell/CMD complexes directement. Exception : commandes simples natives (`git status`, `bun run <script>`, `ls`) qui restent en Bash. Le dossier `scripts-debug/` est ignoré par git.
+7. **Merger dans `main` après chaque tâche terminée** : dès qu'une tâche est complète, merger la branche courante dans `main` (`git checkout main && git merge <branche> --no-ff && git checkout <branche>`)
+8. **Layout global élève — ne jamais dupliquer le nav dans les pages** : le nav élève est fourni par `app/(eleve)/layout.tsx` (dashboard, profil, classes) et `app/quiz/layout.tsx` (toutes les pages quiz). Ne jamais ajouter de `<header>` ou de bouton "Déconnexion" inline dans ces pages. Toute nouvelle page élève doit être créée dans `app/(eleve)/` pour hériter du nav automatiquement. Composant nav : `components/eleve/StudentNav.tsx`.
+9. **Comparaison de réponses texte — toujours tolérer accents et casse** : toute comparaison entre une réponse saisie et une valeur attendue doit normaliser les deux chaînes via `normalize()` de `lib/api.ts` (trim + lowercase + NFD + strip diacritics). Ne jamais comparer des chaînes brutes pour valider une réponse utilisateur. S'applique à `answersEqual` et à tout futur code de correction.
+9. **Inputs texte (fill_blank) — ne jamais déclencher une soumission API sur chaque frappe** : tout `<input type="text">` contrôlé dont la valeur est envoyée à une API doit séparer "mise à jour locale" (onChange) et "soumission finale" (onConfirm, déclenché par Enter ou un bouton "Valider"). Ne jamais appeler `fetch` dans un handler `onChange` d'un champ texte libre — cela verrouille le champ dès la première lettre via le retour d'état de l'API.
+9. **JSONB PostgreSQL — toujours normaliser côté route API** : `postgres.js` ne parse pas automatiquement les colonnes `JSONB` insérées comme texte brut (ex. `options`, `correct_answer`, `given_answer`). Dans toute route qui lit ces colonnes, appliquer avant usage :
+   ```ts
+   const parseJsonb = (v: unknown) => typeof v === "string" ? JSON.parse(v) : v;
+   ```
+   Pour l'écriture, toujours utiliser `sql.json(value)` pour insérer du JSONB (jamais `JSON.stringify(value)::jsonb`). Ces deux règles s'appliquent à chaque nouvelle route et à chaque correction de bug touchant la DB.
 
 ## Stack
 

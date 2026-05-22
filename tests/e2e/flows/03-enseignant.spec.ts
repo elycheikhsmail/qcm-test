@@ -9,7 +9,10 @@ test.describe("Enseignant — classes", () => {
     await page.waitForLoadState("networkidle");
     // Soit une liste de classes, soit le message vide
     await expect(
-      page.locator("text=Mes classes, text=Terminale, text=Aucune classe").first()
+      page.locator("text=Mes classes")
+        .or(page.locator("text=Aucune classe"))
+        .or(page.locator(".grid"))
+        .first()
     ).toBeVisible({ timeout: 10_000 });
   });
 
@@ -23,8 +26,10 @@ test.describe("Enseignant — classes", () => {
     await createBtn.click();
 
     const nom = `E2E Classe ${Date.now()}`;
-    await page.fill('input[placeholder*="nom" i], input[placeholder*="classe" i], input:near(:text("Nom"))', nom);
-    await page.fill('input:near(:text("Niveau"))', "Terminale");
+    // Le champ Nom a placeholder="ex: 3AS-A Maths"
+    await page.locator('input[placeholder="ex: 3AS-A Maths"]').fill(nom);
+    // Le champ Niveau est un <select>, pas un <input>
+    await page.locator("select").first().selectOption("3AS");
 
     const submitBtn = page.locator('button[type="submit"]').last();
     await submitBtn.click();
@@ -56,7 +61,13 @@ test.describe("Enseignant — tests", () => {
 
     await page.goto(`/enseignant/tests/${tests[0].id}/results`);
     await page.waitForLoadState("networkidle");
-    await expect(page.locator("table, text=Résultats, text=Élèves, text=Score").first()).toBeVisible({ timeout: 10_000 });
+    await expect(
+      page.locator("table")
+        .or(page.locator("text=Résultats"))
+        .or(page.locator("text=Élèves"))
+        .or(page.locator("text=Score"))
+        .first()
+    ).toBeVisible({ timeout: 10_000 });
   });
 
   test("/enseignant/tests/[id]/stats : statistiques par question (seed)", async ({ page }) => {
@@ -68,6 +79,11 @@ test.describe("Enseignant — tests", () => {
 
     await page.goto(`/enseignant/tests/${tests[0].id}/stats`);
     await page.waitForLoadState("networkidle");
-    await expect(page.locator("h1, h2, text=Statistiques, text=Question").first()).toBeVisible({ timeout: 10_000 });
+    await expect(
+      page.locator("h1, h2")
+        .or(page.locator("text=Statistiques"))
+        .or(page.locator("text=Question"))
+        .first()
+    ).toBeVisible({ timeout: 10_000 });
   });
 });

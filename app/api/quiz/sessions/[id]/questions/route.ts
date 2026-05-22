@@ -8,7 +8,7 @@ type Row = {
   id: number;
   type: "qcm" | "true_false" | "matching" | "fill_blank";
   content: string;
-  options: unknown | null;
+  options: string[] | null;
   difficulty: "facile" | "moyen" | "difficile";
   order: number;
 };
@@ -39,9 +39,14 @@ export async function GET(
     ORDER BY tq."order"
   `;
 
+  const questions = rows.map((r) => ({
+    ...r,
+    options: typeof r.options === "string" ? JSON.parse(r.options) : r.options,
+  }));
+
   return json({
     session_id: session.id,
     submitted: session.submitted_at !== null,
-    questions: rows,
+    questions,
   });
 }

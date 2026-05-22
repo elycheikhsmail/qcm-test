@@ -107,7 +107,6 @@ export default async function DashboardPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
 
-  // Rediriger les enseignants vers leur espace
   if (["enseignant", "admin_ped"].includes(user.role)) {
     redirect("/enseignant/classes");
   }
@@ -122,57 +121,45 @@ export default async function DashboardPage() {
   const classesPending = mesClasses.filter((c) => c.status === "pending");
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200 px-4 py-4">
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
+    <main className="bg-gray-50 min-h-screen">
+      <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
+
+        <div className="flex items-center justify-between">
           <div>
             <h1 className="text-lg font-bold text-gray-900">
               Bonjour, {user.first_name ?? user.email} !
             </h1>
             <p className="text-sm text-gray-500">Tableau de bord élève</p>
           </div>
-          <div className="flex items-center gap-3">
-            <Link
-              href="/parent"
-              className="text-sm text-amber-700 hover:text-amber-900 border border-amber-200 bg-amber-50 rounded-lg px-3 py-2"
-            >
-              Vue Parent
-            </Link>
-            <Link
-              href="/profil"
-              className="text-sm text-gray-600 hover:text-gray-900 border border-gray-200 rounded-lg px-3 py-2"
-            >
-              Mon profil
-            </Link>
-            <form action="/api/auth/logout" method="post">
-              <button
-                type="submit"
-                className="text-sm text-red-600 hover:text-red-700 border border-red-200 rounded-lg px-3 py-2"
-              >
-                Déconnexion
-              </button>
-            </form>
-          </div>
+          <Link
+            href="/parent"
+            className="text-sm text-amber-700 hover:text-amber-900 border border-amber-200 bg-amber-50 rounded-lg px-3 py-2"
+          >
+            Vue Parent
+          </Link>
         </div>
-      </header>
-
-      <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
 
         {/* ── Mes classes ────────────────────────────────────── */}
         <section>
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-base font-semibold text-gray-900">Mes classes</h2>
-            <JoinClasseButton />
+            <Link
+              href="/classes/join"
+              className="text-sm border border-blue-600 text-blue-600 rounded-lg px-3 py-1.5 hover:bg-blue-50 transition-colors"
+            >
+              + Rejoindre une classe
+            </Link>
           </div>
 
           {mesClasses.length === 0 ? (
             <div className="bg-white rounded-xl border border-gray-200 p-6 text-center text-gray-400 text-sm">
               Vous n&apos;êtes inscrit à aucune classe.{" "}
-              <JoinClasseInline />
+              <Link href="/classes/join" className="text-blue-600 hover:underline">
+                Rejoindre une classe
+              </Link>
             </div>
           ) : (
             <div className="space-y-3">
-              {/* Demandes en attente */}
               {classesPending.length > 0 && (
                 <div className="bg-amber-50 border border-amber-200 rounded-xl divide-y divide-amber-100">
                   {classesPending.map((c) => (
@@ -190,7 +177,6 @@ export default async function DashboardPage() {
                   ))}
                 </div>
               )}
-              {/* Classes actives */}
               {classesActives.length > 0 && (
                 <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
                   {classesActives.map((c) => (
@@ -297,10 +283,7 @@ export default async function DashboardPage() {
           ) : (
             <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
               {history.map((s) => (
-                <div
-                  key={s.id as number}
-                  className="flex items-center justify-between px-4 py-3"
-                >
+                <div key={s.id as number} className="flex items-center justify-between px-4 py-3">
                   <div>
                     <p className="text-sm font-medium text-gray-900">
                       {(s.test_title as string) ?? "Quiz libre"}
@@ -336,27 +319,5 @@ export default async function DashboardPage() {
         </section>
       </div>
     </main>
-  );
-}
-
-// ── Composants inline join (client boundary non nécessaire ici,
-//    on utilise un simple lien vers la page /classes/join) ──────
-
-function JoinClasseButton() {
-  return (
-    <Link
-      href="/classes/join"
-      className="text-sm border border-blue-600 text-blue-600 rounded-lg px-3 py-1.5 hover:bg-blue-50 transition-colors"
-    >
-      + Rejoindre une classe
-    </Link>
-  );
-}
-
-function JoinClasseInline() {
-  return (
-    <Link href="/classes/join" className="text-blue-600 hover:underline">
-      Rejoindre une classe
-    </Link>
   );
 }

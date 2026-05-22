@@ -68,30 +68,40 @@ export default function QuizPage({ params }: { params: Promise<{ session_id: str
 
   const current = questions[index];
 
-  async function handleAnswer(answer: unknown) {
-    if (!current || feedback) return;
-
-    const newAnswers = { ...answers, [current.id]: answer };
-    setAnswers(newAnswers);
-
-    // Submit answer to API
+  async function submitAnswer(questionId: number, answer: unknown) {
     try {
       const res = await fetch("/api/quiz/answers", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           session_id: sessionId,
-          question_id: current.id,
+          question_id: questionId,
           given_answer: answer,
         }),
       });
       const data = await res.json();
       if (res.ok) {
-        setFeedback({ isCorrect: data.data.is_correct, questionId: current.id });
+        setFeedback({ isCorrect: data.data.is_correct, questionId });
       }
     } catch {
       // non-blocking — answer is still recorded locally
     }
+  }
+
+  async function handleAnswer(answer: unknown) {
+    if (!current || feedback) return;
+    setAnswers((prev) => ({ ...prev, [current.id]: answer }));
+    // For fill_blank, submission is deferred to handleConfirm
+    if (current.type !== "fill_blank") {
+      await submitAnswer(current.id, answer);
+    }
+  }
+
+  async function handleConfirm() {
+    if (!current || feedback) return;
+    const answer = answers[current.id];
+    if (answer == null) return;
+    await submitAnswer(current.id, answer);
   }
 
   function handleNext() {
@@ -163,6 +173,7 @@ export default function QuizPage({ params }: { params: Promise<{ session_id: str
           question={current}
           selectedAnswer={answers[current.id] ?? null}
           onAnswer={handleAnswer}
+          onConfirm={handleConfirm}
           disabled={!!feedback}
         />
 

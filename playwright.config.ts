@@ -7,7 +7,11 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   workers: 1,
   timeout: 60_000,
-  reporter: [["list"], ["html", { open: "never" }]],
+  reporter: [
+    ["list"],
+    ["html", { open: "never" }],
+    ["json", { outputFile: "test-results/report.json" }],
+  ],
   use: {
     baseURL: "http://localhost:3001",
     locale: "fr-FR",

@@ -40,14 +40,20 @@ export default function SelectPage() {
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
-    const t = sessionStorage.getItem("quiz_token");
-    if (!t) {
-      router.push("/");
-      return;
+    async function init() {
+      const t = sessionStorage.getItem("quiz_token");
+      if (!t) {
+        const res = await fetch("/api/me");
+        if (!res.ok) {
+          router.push("/");
+          return;
+        }
+      }
+      const r = await fetch("/api/quiz/subjects");
+      const d = await r.json();
+      setSubjects(d.data ?? []);
     }
-    fetch("/api/quiz/subjects")
-      .then((r) => r.json())
-      .then((d) => setSubjects(d.data ?? []));
+    init();
   }, [router]);
 
   useEffect(() => {

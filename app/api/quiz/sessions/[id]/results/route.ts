@@ -53,14 +53,24 @@ export async function GET(
     ORDER BY tq."order"
   `;
 
-  const correct = items.filter((i) => i.is_correct).length;
+  const parseJsonb = (v: unknown) =>
+    typeof v === "string" ? JSON.parse(v) : v;
+
+  const normalized = items.map((i) => ({
+    ...i,
+    options: parseJsonb(i.options),
+    correct_answer: parseJsonb(i.correct_answer),
+    given_answer: parseJsonb(i.given_answer),
+  }));
+
+  const correct = normalized.filter((i) => i.is_correct).length;
 
   return json({
     session_id: session.id,
     score: session.score,
     correct,
-    total: items.length,
+    total: normalized.length,
     submitted_at: session.submitted_at,
-    items,
+    items: normalized,
   });
 }

@@ -20,6 +20,8 @@ export async function GET(req: Request) {
           l.id,
           l.name,
           l."order",
+          l.cycle,
+          l.branche,
           COUNT(q.id)::int AS nb_questions
         FROM levels l
         LEFT JOIN chapters ch ON ch.level_id = l.id AND ch.subject_id = ${subjectId}
@@ -33,6 +35,8 @@ export async function GET(req: Request) {
           l.id,
           l.name,
           l."order",
+          l.cycle,
+          l.branche,
           COUNT(q.id)::int AS nb_questions
         FROM levels l
         LEFT JOIN chapters ch ON ch.level_id = l.id

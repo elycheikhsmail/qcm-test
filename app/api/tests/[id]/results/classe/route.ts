@@ -64,7 +64,7 @@ export async function GET(
   const distribution = [0, 1, 2, 3].map((b) => ({
     bucket: b,
     label: LABELS[b],
-    count: distRows.find((r: { bucket: number }) => r.bucket === b)?.count ?? 0,
+    count: (distRows as unknown as { bucket: number; count: number }[]).find((r) => r.bucket === b)?.count ?? 0,
   }));
 
   const eleves = await sql`

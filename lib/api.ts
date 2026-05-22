@@ -53,8 +53,21 @@ export function requireAdmin(req: Request): NextResponse | null {
   return null;
 }
 
-/** Compare deux valeurs JSON de façon stable (ordre-indépendant pour les tableaux). */
+/** Normalise une chaîne : minuscules + suppression des accents + trim. */
+function normalize(s: string): string {
+  return s
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+/** Compare deux valeurs JSON de façon stable.
+ *  Les chaînes sont comparées sans tenir compte de la casse ni des accents. */
 export function answersEqual(a: unknown, b: unknown): boolean {
+  if (typeof a === "string" && typeof b === "string") {
+    return normalize(a) === normalize(b);
+  }
   if (Array.isArray(a) && Array.isArray(b)) {
     if (a.length !== b.length) return false;
     const sa = [...a].map((x) => JSON.stringify(x)).sort();

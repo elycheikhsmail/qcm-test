@@ -22,11 +22,33 @@ type Filters = {
   validated: string;
 };
 
+type Subject = { id: number; name: string };
+type Level = { id: number; name: string };
+type Chapter = { id: number; title: string };
+
 export default function QuestionsPage() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<Filters>({ subject_id: "", level_id: "", chapter_id: "", validated: "false" });
   const [actionLoading, setActionLoading] = useState<number | null>(null);
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [levels, setLevels] = useState<Level[]>([]);
+  const [chapters, setChapters] = useState<Chapter[]>([]);
+
+  useEffect(() => {
+    fetch("/api/admin-ped/subjects").then(r => r.json()).then(d => setSubjects(d.data ?? []));
+    fetch("/api/admin-ped/levels").then(r => r.json()).then(d => setLevels(d.data ?? []));
+  }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (filters.subject_id) params.set("subject_id", filters.subject_id);
+    if (filters.level_id) params.set("level_id", filters.level_id);
+    fetch(`/api/admin-ped/chapters?${params}`).then(r => r.json()).then(d => {
+      setChapters(d.data ?? []);
+      setFilters(f => ({ ...f, chapter_id: "" }));
+    });
+  }, [filters.subject_id, filters.level_id]);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -67,6 +89,36 @@ export default function QuestionsPage() {
 
       {/* Filtres */}
       <div className="flex gap-3 mb-4 flex-wrap">
+        <select
+          value={filters.subject_id}
+          onChange={(e) => setFilters((f) => ({ ...f, subject_id: e.target.value }))}
+          className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm"
+        >
+          <option value="">Toutes les matières</option>
+          {subjects.map((s) => (
+            <option key={s.id} value={s.id}>{s.name}</option>
+          ))}
+        </select>
+        <select
+          value={filters.level_id}
+          onChange={(e) => setFilters((f) => ({ ...f, level_id: e.target.value }))}
+          className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm"
+        >
+          <option value="">Tous les niveaux</option>
+          {levels.map((l) => (
+            <option key={l.id} value={l.id}>{l.name}</option>
+          ))}
+        </select>
+        <select
+          value={filters.chapter_id}
+          onChange={(e) => setFilters((f) => ({ ...f, chapter_id: e.target.value }))}
+          className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm"
+        >
+          <option value="">Tous les chapitres</option>
+          {chapters.map((c) => (
+            <option key={c.id} value={c.id}>{c.title}</option>
+          ))}
+        </select>
         <select
           value={filters.validated}
           onChange={(e) => setFilters((f) => ({ ...f, validated: e.target.value }))}

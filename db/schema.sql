@@ -46,7 +46,13 @@ CREATE TABLE IF NOT EXISTS subjects (
 CREATE TABLE IF NOT EXISTS levels (
   id      SERIAL PRIMARY KEY,
   name    TEXT NOT NULL UNIQUE,
-  "order" SMALLINT NOT NULL
+  "order" SMALLINT NOT NULL,
+  cycle   TEXT NOT NULL CHECK (cycle IN ('fondamental', 'college', 'lycee')),
+  branche TEXT CHECK (branche IN ('C', 'D', 'A', 'O')),
+  CONSTRAINT levels_branche_cycle_check CHECK (
+    (cycle IN ('fondamental', 'college') AND branche IS NULL) OR
+    cycle = 'lycee'
+  )
 );
 
 -- ─── 5. CHAPITRES ────────────────────────────────────────────

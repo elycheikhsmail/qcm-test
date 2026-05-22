@@ -52,7 +52,9 @@ export async function POST(req: Request) {
   `;
   if (!q) return error("Question introuvable", 404);
 
-  const isCorrect = answersEqual(given_answer, q.correct_answer);
+  const correctAnswer =
+    typeof q.correct_answer === "string" ? JSON.parse(q.correct_answer) : q.correct_answer;
+  const isCorrect = answersEqual(given_answer, correctAnswer);
   const givenJson = JSON.stringify(given_answer);
 
   await sql`

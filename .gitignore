@@ -30,3 +30,6 @@ next-env.d.ts
 playwright-report/
 test-results/
 tests/e2e/.auth/
+
+# Debug scripts (temporaires, non versionnés)
+scripts-debug/

@@ -15,6 +15,7 @@ type Props = {
   question: Question;
   selectedAnswer: unknown;
   onAnswer: (answer: unknown) => void;
+  onConfirm?: () => void;
   disabled?: boolean;
 };
 
@@ -24,7 +25,7 @@ const DIFFICULTY_STYLE: Record<string, string> = {
   difficile: "bg-red-100 text-red-700",
 };
 
-export function QuestionCard({ question, selectedAnswer, onAnswer, disabled }: Props) {
+export function QuestionCard({ question, selectedAnswer, onAnswer, onConfirm, disabled }: Props) {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
       <div className="mb-4">
@@ -59,6 +60,7 @@ export function QuestionCard({ question, selectedAnswer, onAnswer, disabled }: P
         <FillBlankInput
           value={selectedAnswer as string | null}
           onChange={onAnswer}
+          onConfirm={onConfirm}
           disabled={disabled}
         />
       )}
@@ -132,20 +134,35 @@ function TrueFalseOptions({
 function FillBlankInput({
   value,
   onChange,
+  onConfirm,
   disabled,
 }: {
   value: string | null;
   onChange: (v: unknown) => void;
+  onConfirm?: () => void;
   disabled?: boolean;
 }) {
   return (
-    <input
-      type="text"
-      value={value ?? ""}
-      onChange={(e) => onChange(e.target.value || null)}
-      disabled={disabled}
-      placeholder="Votre réponse…"
-      className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 text-sm focus:border-blue-500 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-50"
-    />
+    <div className="space-y-2">
+      <input
+        type="text"
+        value={value ?? ""}
+        onChange={(e) => onChange(e.target.value || null)}
+        onKeyDown={(e) => e.key === "Enter" && !disabled && onConfirm?.()}
+        disabled={disabled}
+        placeholder="Votre réponse…"
+        className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 text-sm focus:border-blue-500 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-50"
+      />
+      {!disabled && (
+        <button
+          type="button"
+          onClick={() => onConfirm?.()}
+          disabled={!value}
+          className="w-full py-2.5 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+        >
+          Valider
+        </button>
+      )}
+    </div>
   );
 }

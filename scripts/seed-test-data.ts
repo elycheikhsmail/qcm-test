@@ -183,12 +183,12 @@ try {
     console.log(`  ✅ Chapitre créé (id=${chapterId})`);
   }
 
-  // Questions (3 QCM validées) — questions : chapter_id, type, content, options, correct_answer, difficulty, validated
+  // Questions (5 QCM validées) — 5 minimum pour que le test puisse sélectionner "5 questions"
   const existingQs = await sql<{ id: number }[]>`
-    SELECT id FROM questions WHERE chapter_id = ${chapterId} AND validated = TRUE LIMIT 3
+    SELECT id FROM questions WHERE chapter_id = ${chapterId} AND validated = TRUE LIMIT 5
   `;
-  if (existingQs.length < 3) {
-    const toCreate = 3 - existingQs.length;
+  if (existingQs.length < 5) {
+    const toCreate = 5 - existingQs.length;
     for (let i = 0; i < toCreate; i++) {
       const a = i + 2, b = i + 3;
       await sql`
@@ -204,7 +204,7 @@ try {
     }
     console.log(`  ✅ ${toCreate} question(s) créée(s)`);
   } else {
-    console.log(`  ↩ Questions déjà présentes`);
+    console.log(`  ↩ Questions déjà présentes (≥5)`);
   }
 
   // ── Test formel ──────────────────────────────────────────────────────────

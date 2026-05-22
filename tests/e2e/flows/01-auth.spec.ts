@@ -36,7 +36,12 @@ test.describe("Auth — login", () => {
     await page.fill('input[name="email"]', "eleve@test.local");
     await page.fill('input[name="password"]', "mauvais_mot_de_passe");
     await page.click('button[type="submit"]');
-    await expect(page.locator("text=Identifiants incorrects, text=incorrect, text=invalide").first()).toBeVisible({ timeout: 5_000 });
+    await expect(
+      page.locator("text=Identifiants incorrects")
+        .or(page.locator("text=incorrect"))
+        .or(page.locator("text=invalide"))
+        .first()
+    ).toBeVisible({ timeout: 5_000 });
   });
 
   test("bouton Google OAuth présent sur /login", async ({ page }) => {
@@ -63,12 +68,13 @@ test.describe("Auth — protection des routes", () => {
 });
 
 test.describe("Auth — logout", () => {
-  test.use({ storageState: storageStatePath("eleve") });
-
+  // Fresh login — ne pas utiliser le storageState partagé pour ne pas invalider la session eleve
   test("logout → redirige vers /login", async ({ page }) => {
-    await page.goto("/dashboard");
-    await page.waitForLoadState("networkidle");
-    // Déclenche le logout via l'API directement
+    await page.goto("/login");
+    await page.fill('input[name="email"]', "eleve@test.local");
+    await page.fill('input[name="password"]', "Test1234!");
+    await page.click('button[type="submit"]');
+    await page.waitForURL("**/dashboard", { timeout: 10_000 });
     await page.request.post("/api/auth/logout");
     await page.goto("/dashboard");
     await expect(page).toHaveURL(/\/login/, { timeout: 8_000 });

@@ -19,6 +19,7 @@
 
 import { sql } from "@/lib/db";
 import { json, error, parseJson } from "@/lib/api";
+import { getCurrentUser } from "@/lib/auth";
 
 type Body = {
   token?: string;
@@ -32,6 +33,9 @@ type Body = {
 export async function POST(req: Request) {
   const body = await parseJson<Body>(req);
   if (!body) return error("Body JSON invalide");
+
+  // Utilisateur connecté ? On l'attache à la session (quiz autonome tracé).
+  const currentUser = await getCurrentUser();
 
   const qc = Math.max(1, Math.min(50, body.question_count ?? 10));
   const diff = body.difficulty ?? null;
@@ -110,10 +114,11 @@ export async function POST(req: Request) {
         `;
       }
 
-      // 6. Créer la session
+      // 6. Créer la session — rattacher l'élève s'il est connecté
+      const eleveId = currentUser?.id ?? null;
       const [session] = await tx<{ id: number }[]>`
-        INSERT INTO sessions (test_id, magic_link_id, is_anonymous)
-        VALUES (${test.id}, ${magicLinkId}, TRUE)
+        INSERT INTO sessions (test_id, magic_link_id, eleve_id, is_anonymous)
+        VALUES (${test.id}, ${magicLinkId}, ${eleveId}, ${eleveId === null})
         RETURNING id
       `;
 

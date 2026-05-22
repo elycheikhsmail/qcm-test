@@ -10,7 +10,10 @@ test.describe("Admin Pédagogique — questions", () => {
     await expect(page.locator("h1, h2").first()).toBeVisible({ timeout: 8_000 });
     // La liste ou le message vide doit s'afficher
     await expect(
-      page.locator("table tr, text=Aucune question, text=questions").first()
+      page.locator("table tr")
+        .or(page.locator("text=Aucune question"))
+        .or(page.locator("text=questions"))
+        .first()
     ).toBeVisible({ timeout: 10_000 });
   });
 
