@@ -116,27 +116,27 @@ export default function TestDetailPage({ params }: { params: Promise<{ id: strin
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <p className="text-gray-400 text-sm">Chargement…</p>
-      </main>
+      </div>
     );
   }
 
   if (error || !test) {
     return (
-      <main className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <p className="text-red-600 text-sm">{error || "Test introuvable"}</p>
           <button onClick={() => router.push("/enseignant/tests")} className="mt-4 text-sm text-blue-600 underline">
             Retour
           </button>
         </div>
-      </main>
+      </div>
     );
   }
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <div>
       <header className="bg-white border-b border-gray-200 px-4 py-4">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <div>
@@ -299,6 +299,6 @@ export default function TestDetailPage({ params }: { params: Promise<{ id: strin
           )}
         </div>
       </div>
-    </main>
+    </div>
   );
 }

@@ -42,7 +42,7 @@ export function StudentNav({ user }: { user: User }) {
         </div>
 
         <div className="flex items-center gap-3 shrink-0">
-          <span className="text-sm text-gray-500 hidden sm:block truncate max-w-32">
+          <span className="text-sm font-medium text-gray-700 truncate max-w-40">
             {user.first_name
               ? `${user.first_name} ${user.last_name ?? ""}`.trim()
               : user.email}

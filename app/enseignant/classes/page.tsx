@@ -81,7 +81,7 @@ export default function EnseignantClassesPage() {
   const NIVEAUX = ["1AF","2AF","3AF","4AF","5AF","6AF","1AS","2AS","3AS","4AS","5AS","6AS","7AS"];
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <div>
       <header className="bg-white border-b border-gray-200 px-4 py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <div>
@@ -101,11 +101,6 @@ export default function EnseignantClassesPage() {
             >
               + Nouvelle classe
             </button>
-            <form action="/api/auth/logout" method="post">
-              <button type="submit" className="text-sm text-red-600 border border-red-200 rounded-lg px-3 py-2">
-                Déconnexion
-              </button>
-            </form>
           </div>
         </div>
       </header>
@@ -237,6 +232,6 @@ export default function EnseignantClassesPage() {
           </div>
         )}
       </div>
-    </main>
+    </div>
   );
 }

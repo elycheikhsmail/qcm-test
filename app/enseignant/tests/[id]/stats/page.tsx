@@ -57,18 +57,18 @@ export default function TestStatsPage({ params }: { params: Promise<{ id: string
   }, [id]);
 
   if (loading) return (
-    <main className="min-h-screen bg-gray-50 flex items-center justify-center">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <p className="text-gray-400 text-sm">Chargement…</p>
-    </main>
+    </div>
   );
 
   if (err || !test) return (
-    <main className="min-h-screen bg-gray-50 flex items-center justify-center">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="text-center">
         <p className="text-red-600 text-sm">{err || "Erreur"}</p>
         <Link href={`/enseignant/tests/${id}`} className="mt-4 inline-block text-sm text-blue-600 underline">Retour</Link>
       </div>
-    </main>
+    </div>
   );
 
   const answered = questions.filter((q) => q.nb_reponses > 0);
@@ -81,7 +81,7 @@ export default function TestStatsPage({ params }: { params: Promise<{ id: string
   const easiest = sorted.slice(-3).reverse().filter((q) => q.nb_reponses > 0);
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <div>
       <header className="bg-white border-b border-gray-200 px-4 py-4">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <div>
@@ -184,6 +184,6 @@ export default function TestStatsPage({ params }: { params: Promise<{ id: string
           )}
         </div>
       </div>
-    </main>
+    </div>
   );
 }

@@ -16,7 +16,17 @@ export default async function AdminPedLayout({ children }: { children: React.Rea
         <Link href="/admin-ped/matieres" className="text-sm text-gray-600 hover:text-gray-900">Matières</Link>
         <Link href="/admin-ped/niveaux" className="text-sm text-gray-600 hover:text-gray-900">Niveaux</Link>
         <Link href="/admin-ped/chapitres" className="text-sm text-gray-600 hover:text-gray-900">Chapitres</Link>
-        <div className="ml-auto text-xs text-gray-400">{user.first_name} {user.last_name}</div>
+        <Link href="/admin-ped/magic-links" className="text-sm text-gray-600 hover:text-gray-900">Magic links</Link>
+        <div className="ml-auto flex items-center gap-4">
+          <span className="text-sm font-medium text-gray-700">
+            {user.first_name ? `${user.first_name} ${user.last_name ?? ""}`.trim() : user.email}
+          </span>
+          <form action="/api/auth/logout" method="post">
+            <button type="submit" className="text-xs text-red-600 hover:text-red-700 border border-red-200 rounded px-2 py-1 transition-colors">
+              Déconnexion
+            </button>
+          </form>
+        </div>
       </nav>
       <main className="p-6">{children}</main>
     </div>

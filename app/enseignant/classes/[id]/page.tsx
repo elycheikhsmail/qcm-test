@@ -119,9 +119,9 @@ export default function ClasseDetailPage({
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <p className="text-gray-400 text-sm">Chargement…</p>
-      </main>
+      </div>
     );
   }
   if (!classe) return null;
@@ -130,7 +130,7 @@ export default function ClasseDetailPage({
   const pending = classe.eleves.filter((e) => e.status === "pending");
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <div>
       <header className="bg-white border-b border-gray-200 px-4 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div>
@@ -257,6 +257,6 @@ export default function ClasseDetailPage({
           )}
         </section>
       </div>
-    </main>
+    </div>
   );
 }
