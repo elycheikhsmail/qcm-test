@@ -15,6 +15,7 @@
    const parseJsonb = (v: unknown) => typeof v === "string" ? JSON.parse(v) : v;
    ```
    Pour l'écriture, toujours utiliser `sql.json(value)` pour insérer du JSONB (jamais `JSON.stringify(value)::jsonb`). Ces deux règles s'appliquent à chaque nouvelle route et à chaque correction de bug touchant la DB.
+10. **Démarrage session de test — vérifier la présence de questions** : `POST /api/tests/:id/sessions` doit refuser (422) si `test_questions` est vide pour ce test. Côté page `/quiz/test/[test_id]`, si `GET /api/quiz/sessions/:id/questions` renvoie `questions: []`, afficher un message d'erreur explicite (`setLoadError`) plutôt que de rester bloqué sur "Démarrage du test…". Régression couverte par `tests/e2e/flows/08-test-sans-questions.spec.ts`.
 
 ## Stack
 
@@ -92,6 +93,15 @@
 - Bouton Google sur `/login` et `/signup`
 - OTP téléphone → différé (provider SMS mauritanien non configuré)
 
+## Magic links — 3 voies de génération
+
+- **Claude code / CLI / scripts** : `POST /api/magic-links` avec header `X-Admin-Token` (cf. `scripts/generate-magic-link.ts`)
+- **Admin (`admin_tech` / `admin_ped`) connecté** : `POST /api/magic-links` via session (sans header) — UI sur `/admin-ped/magic-links`
+- **Enseignant** : `POST /api/magic-links/classe` via session — UI bouton "🔗 Magic link" sur `/enseignant/classes/[id]`
+- Validation publique du token : `GET /api/magic-links/:token`
+- Utilisation élève : page d'accueil `/?token=...` → stocke dans `sessionStorage.quiz_token` → `/quiz/select`
+- Tests e2e : `tests/e2e/flows/07-magic-links.spec.ts` (3 voies + utilisation élève + token invalide)
+
 ## Admin Pédagogique (Sprint 11)
 
 - Auth guard : `requireAdminPed()` dans `lib/auth-guard.ts` (rôles `admin_ped`, `admin_tech`)
@@ -122,3 +132,5 @@
 - Page élève : `/classes/join` (rejoindre par identifiant)
 - Dashboard `/dashboard` : section "Mes classes" + redirect enseignant → `/enseignant/classes`
 - RBAC : `canManageClasse(userId, classeId)` vérifie `classe_enseignants` — utilisé dans toutes les routes enseignant
+- Bouton "+ Créer un test" sur chaque carte classe (`/enseignant/classes`) → modal `components/enseignant/CreateTestModal.tsx` (matière Mathématiques + niveau de la classe pré-sélectionnés) → `POST /api/tests` puis `POST /api/tests/:id/assignments` (target_type=classe) → redirect `/enseignant/tests/:id`
+- Sélection multi-cases **Types de questions** dans le modal (`qcm`, `true_false`, `fill_blank`) → envoyée à `POST /api/tests` via `question_types: string[]`. Si aucun type n'est coché, tous les types sont autorisés. L'API filtre le tirage random via `q.type = ANY(question_types::text[])`.

@@ -65,7 +65,7 @@ export async function POST(req: Request) {
   return json(
     {
       token: row.token,
-      url: `${process.env.NEXT_PUBLIC_BASE_URL ?? ""}/quiz/${row.token}`,
+      url: `${process.env.NEXT_PUBLIC_BASE_URL ?? ""}/?token=${row.token}`,
       expires_at: row.expires_at,
       max_uses: row.max_uses,
       classe_id: classeId,

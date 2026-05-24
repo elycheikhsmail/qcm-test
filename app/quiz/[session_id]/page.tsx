@@ -13,10 +13,20 @@ type FeedbackState = {
 
 const LS_KEY = "qcm_session";
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 export default function QuizPage({ params }: { params: Promise<{ session_id: string }> }) {
   const { session_id } = use(params);
   const sessionId = Number(session_id);
   const router = useRouter();
+
+  // Si le segment est un token UUID (magic link), rediriger vers la page d'accueil
+  // qui validera le token puis enverra sur /quiz/select.
+  useEffect(() => {
+    if (UUID_RE.test(session_id)) {
+      router.replace(`/?token=${session_id}`);
+    }
+  }, [session_id, router]);
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [index, setIndex] = useState(0);
@@ -28,6 +38,7 @@ export default function QuizPage({ params }: { params: Promise<{ session_id: str
 
   // Restore session from localStorage
   useEffect(() => {
+    if (Number.isNaN(sessionId)) return;
     const saved = localStorage.getItem(LS_KEY);
     if (saved) {
       try {
@@ -44,6 +55,7 @@ export default function QuizPage({ params }: { params: Promise<{ session_id: str
 
   // Fetch questions
   useEffect(() => {
+    if (Number.isNaN(sessionId)) return; // UUID magic link — redirect en cours
     fetch(`/api/quiz/sessions/${sessionId}/questions`)
       .then((r) => r.json())
       .then((d) => {

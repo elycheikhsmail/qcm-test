@@ -5,6 +5,9 @@ import { sql } from "@/lib/db";
 import { json, error, parseJson } from "@/lib/api";
 import { requireEnseignant, isNextResponse } from "@/lib/auth-guard";
 
+type QuestionType = "qcm" | "true_false" | "fill_blank" | "matching";
+const ALLOWED_QUESTION_TYPES: QuestionType[] = ["qcm", "true_false", "fill_blank", "matching"];
+
 type CreateBody = {
   title?: string;
   subject_id?: number;
@@ -15,6 +18,7 @@ type CreateBody = {
   time_mode?: "libre" | "chrono" | "deadline";
   duration_minutes?: number;
   deadline_at?: string;
+  question_types?: QuestionType[];
 };
 
 class ApiError extends Error {
@@ -79,6 +83,20 @@ export async function POST(req: Request) {
     return error("deadline_at requis pour le mode deadline");
   }
 
+  let questionTypes: QuestionType[] | null = null;
+  if (body.question_types !== undefined) {
+    if (!Array.isArray(body.question_types)) {
+      return error("question_types doit être un tableau");
+    }
+    const invalid = body.question_types.filter((t) => !ALLOWED_QUESTION_TYPES.includes(t));
+    if (invalid.length > 0) {
+      return error(`question_types invalides : ${invalid.join(", ")}`);
+    }
+    if (body.question_types.length > 0) {
+      questionTypes = Array.from(new Set(body.question_types));
+    }
+  }
+
   const deadlineAt = body.deadline_at ? new Date(body.deadline_at) : null;
   if (deadlineAt && isNaN(deadlineAt.getTime())) {
     return error("deadline_at invalide (format ISO attendu)");
@@ -99,6 +117,7 @@ export async function POST(req: Request) {
           AND (${body.level_id ?? null}::int IS NULL OR ch.level_id = ${body.level_id ?? null})
           AND (${body.subject_id ?? null}::int IS NULL OR ch.subject_id = ${body.subject_id ?? null})
           AND (${body.difficulty ?? null}::text IS NULL OR q.difficulty = ${body.difficulty ?? null})
+          AND (${questionTypes as any}::text[] IS NULL OR q.type = ANY(${questionTypes as any}::text[]))
         ORDER BY random()
         LIMIT ${qc}
       `;

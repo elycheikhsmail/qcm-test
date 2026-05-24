@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import CreateTestModal from "@/components/enseignant/CreateTestModal";
 
 type Classe = {
   id: number;
@@ -25,6 +26,7 @@ export default function EnseignantClassesPage() {
   const [etablissements, setEtablissements] = useState<Etablissement[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
+  const [testClasse, setTestClasse] = useState<Classe | null>(null);
 
   // Form state
   const [nom, setNom] = useState("");
@@ -203,35 +205,56 @@ export default function EnseignantClassesPage() {
         ) : (
           <div className="grid gap-4 sm:grid-cols-2">
             {classes.map((c) => (
-              <Link
+              <div
                 key={c.id}
-                href={`/enseignant/classes/${c.id}`}
-                className="bg-white rounded-xl border border-gray-200 p-5 hover:border-blue-300 hover:shadow-sm transition-all block"
+                className="bg-white rounded-xl border border-gray-200 p-5 hover:border-blue-300 hover:shadow-sm transition-all"
               >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h3 className="font-semibold text-gray-900">{c.nom}</h3>
-                    <p className="text-sm text-gray-500 mt-0.5">
-                      {c.niveau}{c.filiere ? ` — ${c.filiere}` : ""} · {c.annee_scolaire}
-                    </p>
-                    {c.etablissement_nom && (
-                      <p className="text-xs text-gray-400 mt-1">{c.etablissement_nom}</p>
-                    )}
+                <Link href={`/enseignant/classes/${c.id}`} className="block">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="font-semibold text-gray-900">{c.nom}</h3>
+                      <p className="text-sm text-gray-500 mt-0.5">
+                        {c.niveau}{c.filiere ? ` — ${c.filiere}` : ""} · {c.annee_scolaire}
+                      </p>
+                      {c.etablissement_nom && (
+                        <p className="text-xs text-gray-400 mt-1">{c.etablissement_nom}</p>
+                      )}
+                    </div>
+                    <div className="text-right shrink-0 ml-4">
+                      <p className="text-sm font-medium text-gray-700">{c.nb_eleves} élève{c.nb_eleves !== 1 ? "s" : ""}</p>
+                      {c.nb_pending > 0 && (
+                        <span className="inline-block mt-1 text-xs bg-amber-100 text-amber-700 rounded-full px-2 py-0.5">
+                          {c.nb_pending} en attente
+                        </span>
+                      )}
+                    </div>
                   </div>
-                  <div className="text-right shrink-0 ml-4">
-                    <p className="text-sm font-medium text-gray-700">{c.nb_eleves} élève{c.nb_eleves !== 1 ? "s" : ""}</p>
-                    {c.nb_pending > 0 && (
-                      <span className="inline-block mt-1 text-xs bg-amber-100 text-amber-700 rounded-full px-2 py-0.5">
-                        {c.nb_pending} en attente
-                      </span>
-                    )}
-                  </div>
+                </Link>
+                <div className="mt-4 pt-3 border-t border-gray-100 flex justify-end">
+                  <button
+                    type="button"
+                    onClick={() => setTestClasse(c)}
+                    className="text-sm bg-emerald-600 text-white rounded-lg px-3 py-1.5 hover:bg-emerald-700 transition-colors"
+                  >
+                    + Créer un test
+                  </button>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         )}
       </div>
+
+      {testClasse && (
+        <CreateTestModal
+          classe={{ id: testClasse.id, nom: testClasse.nom, niveau: testClasse.niveau }}
+          onClose={() => setTestClasse(null)}
+          onCreated={(testId) => {
+            setTestClasse(null);
+            router.push(`/enseignant/tests/${testId}`);
+          }}
+        />
+      )}
     </div>
   );
 }

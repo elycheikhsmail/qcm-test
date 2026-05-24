@@ -59,6 +59,19 @@ export async function POST(
       `;
       if (!assigned) throw new ApiError("Test non assigné à cet élève", 403);
 
+      // Refuser de démarrer un test qui n'a aucune question dans le snapshot —
+      // sans cette garde, la session est créée mais l'élève reste bloqué côté
+      // client ("Démarrage du test…") car GET /questions renvoie [].
+      const [{ n: questionsCount }] = await tx<{ n: number }[]>`
+        SELECT COUNT(*)::int AS n FROM test_questions WHERE test_id = ${testId}
+      `;
+      if (questionsCount === 0) {
+        throw new ApiError(
+          "Ce test ne contient aucune question — contactez votre enseignant",
+          422,
+        );
+      }
+
       // Règle 1 tentative : rejeter si déjà soumis
       const [existing] = await tx`
         SELECT id, submitted_at FROM sessions

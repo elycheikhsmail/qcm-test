@@ -6,6 +6,7 @@ export default function AdminPedHome() {
     { href: "/admin-ped/matieres", label: "Matières", desc: "Gérer les matières (CRUD)" },
     { href: "/admin-ped/niveaux", label: "Niveaux", desc: "Gérer les niveaux scolaires" },
     { href: "/admin-ped/chapitres", label: "Chapitres", desc: "Gérer les chapitres par matière/niveau" },
+    { href: "/admin-ped/magic-links", label: "Magic links", desc: "Donner accès à un élève via un lien d'invitation" },
   ];
 
   return (

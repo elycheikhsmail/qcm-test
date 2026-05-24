@@ -107,6 +107,10 @@ export default function TakeTestPage({ params }: { params: Promise<{ test_id: st
           router.replace(`/quiz/${sessionInfo.session_id}/results`);
           return;
         }
+        if (!d.data.questions || d.data.questions.length === 0) {
+          setLoadError("Ce test ne contient aucune question — contactez votre enseignant");
+          return;
+        }
         setQuestions(d.data.questions);
       })
       .catch(() => setLoadError("Erreur réseau"));
